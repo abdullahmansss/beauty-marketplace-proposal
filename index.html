@@ -1,0 +1,1533 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Proposal and clickable prototype for a beauty services marketplace in South Africa: customer app, professional mode, admin console and public profile page. Demo data only.">
+<title>Beauty Marketplace – proposal and clickable prototype</title>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Beauty Marketplace">
+<meta property="og:title" content="Beauty Marketplace – proposal and clickable prototype">
+<meta property="og:description" content="Proposal and clickable prototype for a beauty services marketplace in South Africa: customer app, professional mode, admin console and public profile page. Demo data only.">
+<meta property="og:url" content="https://abdullahmansss.github.io/beauty-marketplace-proposal/">
+<meta property="og:image" content="https://abdullahmansss.github.io/beauty-marketplace-proposal/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Beauty Marketplace – proposal and clickable prototype">
+<meta name="twitter:image" content="https://abdullahmansss.github.io/beauty-marketplace-proposal/og.jpg">
+<style>:root{color-scheme:light}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap">
+<style>
+/* layout: a sticky top bar with tabs, a stage below; the proposal is a document with a contents rail, the prototype a phone or window frame */
+:root{
+  --bg:#F1EEE9; --surface:#FFFFFF; --surface-2:#F7F4F0; --fg:#1B1A19; --muted:#6B635D; --line:#DED7CF; --line-soft:#EAE4DD;
+  --accent:#1F5B4B; --accent-fg:#FFFFFF; --accent-soft:#E2EFE9; --accent-ink:#1F5B4B; --hot:#C8503F;
+  --warn:#8F6210; --warn-soft:#FBF0D9; --danger:#B23A3A; --danger-soft:#F9E5E5; --ok:#1F5B4B; --ok-soft:#E2EFE9; --info:#2F6FE0; --info-soft:#E7EFFC;
+  --shadow:0 1px 2px rgba(27,26,25,.06),0 10px 28px -14px rgba(27,26,25,.25);
+  --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif; --display:Manrope,Inter,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#141412; --surface:#1D1C1A; --surface-2:#252320; --fg:#ECE8E2; --muted:#A39B93; --line:#36332F; --line-soft:#2C2A27;
+  --accent:#6FB79E; --accent-fg:#0F2C23; --accent-soft:#1E3A31; --accent-ink:#9FD3BE; --hot:#E8806F;
+  --warn:#E0B35A; --warn-soft:#3A2E12; --danger:#F08A7E; --danger-soft:#3F1E1B; --ok:#6FB79E; --ok-soft:#1E3A31; --info:#8FB3F5; --info-soft:#1C2A45;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -14px rgba(0,0,0,.7); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#141412; --surface:#1D1C1A; --surface-2:#252320; --fg:#ECE8E2; --muted:#A39B93; --line:#36332F; --line-soft:#2C2A27;
+  --accent:#6FB79E; --accent-fg:#0F2C23; --accent-soft:#1E3A31; --accent-ink:#9FD3BE; --hot:#E8806F;
+  --warn:#E0B35A; --warn-soft:#3A2E12; --danger:#F08A7E; --danger-soft:#3F1E1B; --ok:#6FB79E; --ok-soft:#1E3A31; --info:#8FB3F5; --info-soft:#1C2A45;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -14px rgba(0,0,0,.7); color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--surface);z-index:30}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+h1,h2,h3,h4{margin:0;text-wrap:balance;line-height:1.25;font-family:var(--display)}
+p{margin:0}
+a{color:var(--accent-ink)}
+svg.i{width:1.1em;height:1.1em;vertical-align:-.18em;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+:focus-visible{outline:2px solid var(--hot);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* shell */
+.shell{min-height:100%;display:flex;flex-direction:column}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top-row{display:flex;align-items:center;gap:10px;min-height:54px;flex-wrap:wrap;padding-block:6px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;margin-inline-end:6px}
+.brand .mark{width:32px;height:32px;border-radius:10px;background:var(--accent);color:var(--accent-fg);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:16px}
+.brand small{display:block;font-weight:500;color:var(--muted);font-size:11px;line-height:1.1}
+.top-tabs{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.top-tabs button{padding:7px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);font-weight:600;color:var(--fg);display:flex;align-items:center;gap:7px;transition:border-color .12s,color .12s,background .12s}
+.top-tabs button:hover{border-color:var(--accent);color:var(--accent-ink)}
+.top-tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.top-right{margin-inline-start:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hot-toggle{display:inline-flex;align-items:center;gap:8px;padding:5px 10px;border:1px solid var(--line);border-radius:999px;font-size:12.5px;font-weight:600;color:var(--muted);background:var(--surface)}
+.hot-toggle .sw{width:30px;height:18px;border-radius:999px;background:var(--line);position:relative;transition:.15s}
+.hot-toggle .sw::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:.15s;box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.hot-toggle[aria-pressed="true"]{color:var(--fg);border-color:var(--hot)}
+.hot-toggle[aria-pressed="true"] .sw{background:var(--hot)}
+.hot-toggle[aria-pressed="true"] .sw::after{left:14px}
+.iconbtn{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);background:var(--surface)}
+.crumbs{display:flex;align-items:center;gap:8px;min-height:40px;border-top:1px solid var(--line-soft);font-size:13px;color:var(--muted);flex-wrap:wrap;padding-block:5px}
+.crumb{display:inline-flex;align-items:center;gap:8px;padding:5px 13px 5px 9px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line-soft)}
+.crumb .gdot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none}
+.crumb .sep{color:var(--line);font-size:14px}
+.crumb b{color:var(--fg);font-weight:600}
+.stage{flex:1;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 40px}
+.stage-inner{max-width:1280px;margin:0 auto}
+.hint{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;background:var(--warn-soft);color:var(--fg);border:1px solid var(--hot);margin-bottom:14px;font-size:13px}
+.hint b{color:var(--hot)}
+.hint .x{margin-inline-start:auto;color:var(--muted)}
+body.hot [data-go]{outline:2px dashed var(--hot);outline-offset:-2px}
+body.hot [data-go]:hover{outline-style:solid}
+[data-go]{cursor:pointer}
+
+/* screen map */
+.map-head{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:end;margin-bottom:22px}
+.map-head h1{font-size:30px;font-weight:800;letter-spacing:-.02em}
+.map-head p{color:var(--muted);max-width:62ch;margin-top:8px}
+.map-stats{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;min-width:120px}
+.stat b{display:block;font-size:22px;font-weight:800;letter-spacing:-.02em;font-family:var(--display);font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--muted)}
+.flowbox{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:22px}
+.flowbox h2{font-size:15px;margin-bottom:10px}
+.flow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.flow .st{padding:7px 11px;border-radius:9px;background:var(--surface-2);border:1px solid var(--line);font-size:13px;font-weight:500;display:flex;gap:6px;align-items:center}
+.flow .st small{color:var(--muted)}
+.flow .ar{color:var(--muted)}
+.map-group{margin-bottom:26px}
+.map-group h2{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.map-group h2 .dot{width:10px;height:10px;border-radius:3px}
+.map-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.mcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;text-align:start;transition:.12s;min-width:0}
+.mcard:hover{border-color:var(--accent);box-shadow:var(--shadow);transform:translateY(-1px)}
+.mcard .n{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.04em}
+.mcard .t{font-weight:600;font-size:14px}
+.mcard .d{font-size:12.5px;color:var(--muted)}
+
+/* phone + window frames */
+.phone-wrap{display:flex;gap:28px;justify-content:center;align-items:flex-start;flex-wrap:wrap}
+.dev{width:414px;max-width:100%;background:#0b0d10;border-radius:46px;padding:12px;box-shadow:0 30px 60px -20px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.08) inset;flex:none;overflow:hidden}
+.dev .phone{border-radius:34px;max-width:100%}
+.side-notes{width:300px;max-width:100%;display:flex;flex-direction:column;gap:12px}
+.note{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:13px}
+.note h4{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;font-family:var(--sans)}
+.jump{display:flex;flex-direction:column;gap:4px}
+.jump button{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:8px;text-align:start;font-weight:500}
+.jump button:hover{background:var(--surface-2)}
+.jump button[aria-current="true"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+.win{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+.winbar{height:38px;background:var(--surface-2);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;padding:0 12px;flex:none}
+.winbar .dots3{display:flex;gap:6px}
+.winbar .dots3 i{width:11px;height:11px;border-radius:50%;background:var(--line)}
+.winbar .url{flex:1;max-width:460px;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:7px;height:24px;font-size:12px;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:6px;font-family:ui-monospace,Menlo,monospace}
+.winbody{overflow-x:auto}
+.winbody .web{min-width:900px}
+.winbody .public{min-width:0}
+
+/* proposal document */
+.srs{display:grid;grid-template-columns:240px minmax(0,1fr);gap:28px;align-items:start}
+.srs-toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 112px);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:1px;max-height:calc(100vh - 140px);overflow:auto}
+.toc-h{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:4px 8px 8px}
+.toc-i{text-align:start;padding:6px 8px;border-radius:7px;font-size:12.5px;color:var(--fg);line-height:1.3;display:block;text-decoration:none}
+.toc-i:hover{background:var(--surface-2)}
+.toc-i .tn{display:inline-block;min-width:22px;color:var(--muted);font-variant-numeric:tabular-nums}
+.srs-doc h3 .hn{color:var(--accent-ink);margin-inline-end:4px;font-variant-numeric:tabular-nums}
+.srs-doc{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:40px 48px 56px;max-width:900px;font-size:14.5px;line-height:1.6;min-width:0}
+.srs-doc h2,.srs-doc h3{scroll-margin-top:130px}
+.srs-doc h2{font-size:32px;font-weight:800;letter-spacing:-.02em;margin:0 0 6px}
+.srs-doc .meta{color:var(--muted);margin-bottom:22px}
+.srs-doc .lead{font-size:17px;max-width:62ch;margin-bottom:8px}
+.srs-doc h3{font-size:21px;font-weight:800;margin:40px 0 10px;padding-top:18px;border-top:1px solid var(--line-soft)}
+.srs-doc p{margin:0 0 10px;max-width:72ch}
+.srs-doc ul,.srs-doc ol{margin:0 0 12px;padding-inline-start:22px;max-width:72ch}
+.srs-doc li{margin:3px 0}
+.tbl-wrap{margin:10px 0 16px;border:1px solid var(--line);border-radius:10px;overflow-x:auto}
+table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{text-align:start;background:var(--surface-2);font-size:12.5px;padding:9px 12px;border-bottom:1px solid var(--line);font-weight:700}
+.tbl td{padding:9px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;line-height:1.5}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td.num,.tbl th.num{text-align:end;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl tr.total td{font-weight:700;background:var(--surface-2)}
+.pk-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:14px 0 6px}
+.pk{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.pk b{display:block;font-size:26px;font-weight:800;letter-spacing:-.02em;font-family:var(--display);font-variant-numeric:tabular-nums}
+.pk span{font-size:12.5px;color:var(--muted)}
+.fig{margin:14px 0 20px;border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--surface-2)}
+.fig figcaption{font-size:12px;color:var(--muted);margin-top:12px;text-align:center}
+.plan-dg{display:flex;flex-direction:column;gap:6px;min-width:0;overflow-x:auto}
+.wk-head,.wk-row{display:grid;grid-template-columns:minmax(190px,1.3fr) repeat(13,minmax(30px,1fr));gap:4px;align-items:stretch;min-width:640px}
+.wk-head span{font-size:11px;color:var(--muted);font-weight:700;text-align:center}
+.wk-t{font-size:12.5px;padding:6px 8px 6px 0}
+.wk-t b{display:block}
+.wk-t small{display:block;color:var(--muted);font-size:11px;line-height:1.35}
+.wk-c{border-radius:6px;background:var(--surface);border:1px solid var(--line-soft);min-height:32px;display:grid;place-items:center;font-size:10.5px;font-weight:800;color:#fff}
+.wk-c.d{background:var(--accent);border-color:var(--accent)}
+.wk-c.b{background:var(--info);border-color:var(--info)}
+.wk-c.g{background:var(--hot);border-color:var(--hot)}
+.wk-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:8px}
+.wk-legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-inline-end:5px}
+.wk-legend i.d{background:var(--accent)}.wk-legend i.b{background:var(--info)}.wk-legend i.g{background:var(--hot)}
+.proto-link{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:10px;background:var(--accent);color:var(--accent-fg);font-weight:600;text-decoration:none}
+
+@media (max-width:1000px){ .srs{grid-template-columns:1fr} .srs-toc{position:static;max-height:none} .srs-doc{padding:24px 18px 36px} .map-head{grid-template-columns:1fr} .map-stats{justify-content:flex-start} .pk-grid{grid-template-columns:1fr} }
+@media (max-width:600px){ .brand small{display:none} .top-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;max-width:100%;order:3;flex:1 1 100%} .top-tabs button{padding:6px 11px;font-size:12.5px;white-space:nowrap} .hot-toggle span:not(.sw){display:none} .hint{display:none} .stage{padding-block:10px 24px} .dev{padding:0;background:transparent;box-shadow:none;border-radius:0} .dev .phone{border-radius:20px;border:1px solid var(--line)} }
+
+/* prototype screens (the product's own look, always light) */
+.proto{--ink:#1B1A19;--muted:#6B635D;--line:#E9E3DD;--bg:#FAF8F5;--card:#FFFFFF;--brand:#1F5B4B;--brand-deep:#153F34;--brand-soft:#E2EFE9;--blush:#F6E8E2;--blush-deep:#8A4B3C;--amber:#8F6210;--amber-soft:#FBF0D9;--red:#B23A3A;--red-soft:#F9E5E5;--star:#C9931F;color-scheme:light}
+.proto a{color:inherit;text-decoration:none}
+.proto button{font-family:inherit}
+.proto .phone{width:390px;height:844px;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;position:relative;overflow:hidden;box-sizing:border-box;font-size:15px;line-height:1.35}.proto .scroll{position:absolute;inset:0;overflow-y:auto;padding:56px 20px 130px;box-sizing:border-box;display:flex;flex-direction:column;gap:20px}.proto .scroll.tight{padding-bottom:120px}.proto .scroll>*{flex:none}.proto h1,.proto h2,.proto h3{font-family:Manrope,Inter,sans-serif;margin:0;line-height:1.2}.proto .h-title{font-size:26px;font-weight:800;letter-spacing:-.02em}.proto .h-sec{font-size:17px;font-weight:700}.proto .muted{color:var(--muted)}.proto .small{font-size:13px}.proto .xs{font-size:12px}.proto .b{font-weight:700}.proto .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;box-sizing:border-box}.proto .card.soft{background:var(--brand-soft);border-color:transparent}.proto .card.blush{background:var(--blush);border-color:transparent}.proto .chips{display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:0 20px;flex:none}.proto .chip{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:18px;border:1px solid var(--line);background:#fff;font-size:14px;font-weight:600;white-space:nowrap;flex:none}.proto .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}.proto .btn{display:flex;align-items:center;justify-content:center;gap:8px;height:52px;border-radius:14px;background:var(--brand);color:#fff;font-weight:700;font-size:16px;border:0;width:100%;text-decoration:none;cursor:pointer;font-family:inherit;box-sizing:border-box}.proto .btn.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}.proto .btn.soft{background:var(--brand-soft);color:var(--brand-deep)}.proto .btn.danger{background:var(--red-soft);color:var(--red)}.proto .btn.sm{height:40px;font-size:14px;border-radius:12px;width:auto;padding:0 16px}.proto .row{display:flex;align-items:center;gap:10px}.proto .between{justify-content:space-between}.proto .col{display:flex;flex-direction:column;gap:8px}.proto .grow{flex:1;min-width:0}.proto .tag{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 9px;border-radius:12px;font-size:12px;font-weight:700;white-space:nowrap}.proto .tag.ok{background:var(--brand-soft);color:var(--brand-deep)}.proto .tag.warn{background:var(--amber-soft);color:var(--amber)}.proto .tag.bad{background:var(--red-soft);color:var(--red)}.proto .tag.ink{background:#EEEAE6;color:var(--ink)}.proto .tag.blush{background:var(--blush);color:var(--blush-deep)}.proto .avatar{width:48px;height:48px;border-radius:50%;background:var(--blush);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--blush-deep);flex:none;font-size:16px}.proto .avatar.lg{width:72px;height:72px;font-size:24px}.proto .avatar.sm{width:36px;height:36px;font-size:13px}.proto .photo{background:linear-gradient(135deg,#EADFD8,#D5C3B8);border-radius:14px;position:relative;overflow:hidden}.proto .photo.g2{background:linear-gradient(135deg,#DCE7E1,#B9CFC4)}.proto .photo.g3{background:linear-gradient(135deg,#F1E3D1,#D9C3A4)}.proto .photo.g4{background:linear-gradient(135deg,#E6DFE9,#C7BAD0)}.proto .nav{position:absolute;left:16px;right:16px;bottom:20px;height:64px;border-radius:28px;background:#fff;box-shadow:0 8px 24px rgba(27,26,25,.14);display:flex;align-items:stretch;padding:0 8px;box-sizing:border-box}.proto .nav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;font-weight:600;color:var(--muted);text-decoration:none}.proto .nav a.on{color:var(--brand)}.proto .nav svg{width:24px;height:24px}.proto .pricebar{position:absolute;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:14px 20px 28px;display:flex;align-items:center;gap:14px;box-sizing:border-box}.proto .input{height:52px;border:1.5px solid var(--line);border-radius:14px;background:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;color:var(--muted);font-size:15px;box-sizing:border-box}.proto .field{display:flex;flex-direction:column;gap:6px}.proto .field label{font-size:13px;font-weight:600}.proto .field input,.proto .field select,.proto .field textarea{height:48px;border:1.5px solid var(--line);border-radius:12px;padding:0 12px;font:inherit;font-size:15px;background:#fff;color:var(--ink);box-sizing:border-box;width:100%}.proto .field textarea{height:88px;padding:10px 12px}.proto .hair{height:1px;background:var(--line)}.proto .stars{color:var(--star);font-weight:700}.proto .back{width:40px;height:40px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;flex:none}.proto .topbar{display:flex;align-items:center;gap:12px}.proto .days{display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:0 20px;flex:none}.proto .day{width:52px;height:68px;border-radius:14px;border:1.5px solid var(--line);background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:12px;font-weight:600;flex:none;cursor:pointer;font-family:inherit;color:var(--ink)}.proto .day.on{background:var(--ink);color:#fff;border-color:var(--ink)}.proto .slots{display:flex;flex-wrap:wrap;gap:8px}.proto .slot{height:40px;padding:0 14px;border-radius:12px;border:1.5px solid var(--line);background:#fff;font-size:14px;font-weight:600;display:flex;align-items:center;cursor:pointer;font-family:inherit;color:var(--ink)}.proto .slot.on{background:var(--brand-soft);border-color:var(--brand);color:var(--brand-deep)}.proto .slot.off{color:#B8B0A9;text-decoration:line-through;cursor:default}.proto .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;padding:12px 20px 32px;box-shadow:0 -12px 40px rgba(27,26,25,.18);box-sizing:border-box;display:flex;flex-direction:column;gap:14px}.proto .grab{width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 4px}.proto .opt{display:flex;align-items:center;gap:12px;padding:12px;border:1.5px solid var(--line);border-radius:14px;background:#fff;cursor:pointer;font-family:inherit;text-align:left;color:var(--ink);width:100%;box-sizing:border-box}.proto .opt.on{border-color:var(--brand);background:var(--brand-soft)}.proto .radio{width:20px;height:20px;border-radius:50%;border:2px solid #C9C1BA;flex:none;box-sizing:border-box}.proto .opt.on .radio{border:6px solid var(--brand)}.proto .bubble{max-width:78%;padding:10px 14px;border-radius:18px;font-size:15px;line-height:1.35}.proto .bubble.me{background:var(--brand);color:#fff;border-bottom-right-radius:6px;align-self:flex-end}.proto .bubble.them{background:#fff;border:1px solid var(--line);border-bottom-left-radius:6px;align-self:flex-start}.proto .step{display:flex;gap:12px;align-items:flex-start}.proto .step .dot{width:28px;height:28px;border-radius:50%;background:var(--brand-soft);color:var(--brand-deep);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex:none}.proto .step .dot.done{background:var(--brand);color:#fff}.proto .step .dot.todo{background:#EEEAE6;color:var(--muted)}.proto .toggle{width:46px;height:28px;border-radius:14px;background:var(--brand);position:relative;flex:none}.proto .toggle::after{content:"";position:absolute;top:3px;right:3px;width:22px;height:22px;border-radius:50%;background:#fff}.proto .toggle.off{background:#D5CEC7}.proto .toggle.off::after{right:auto;left:3px}.proto .web{min-height:100%;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;display:flex;flex-wrap:wrap;font-size:14px;line-height:1.4}.proto .side{width:232px;background:#fff;border-right:1px solid var(--line);padding:20px 14px;box-sizing:border-box;display:flex;flex-direction:column;gap:4px}.proto .side a{display:flex;align-items:center;gap:10px;height:40px;padding:0 12px;border-radius:10px;color:var(--muted);text-decoration:none;font-size:14px;font-weight:600}.proto .side a.on{background:var(--brand-soft);color:var(--brand-deep)}.proto .side .grp{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:14px 12px 4px;font-weight:700}.proto .main{flex:999 1 560px;min-width:0;padding:24px 28px;box-sizing:border-box;display:flex;flex-direction:column;gap:18px}.proto table.t{width:100%;border-collapse:collapse;font-size:14px}.proto table.t th{text-align:left;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--line);font-weight:700}.proto table.t td{padding:12px;border-bottom:1px solid var(--line);vertical-align:middle}.proto table.t tr.sel td{background:var(--brand-soft)}.proto .kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.proto .kpi .card{display:flex;flex-direction:column;gap:6px}.proto .kpi .n{font-family:Manrope,Inter,sans-serif;font-size:28px;font-weight:800;letter-spacing:-.02em}.proto .btn.w{width:auto;padding:0 18px;height:40px;font-size:14px;border-radius:10px}.proto .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line)}.proto .tabs a{padding:10px 14px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}.proto .tabs a.on{color:var(--ink);border-color:var(--ink)}.proto .scrollx{overflow-x:auto}
+
+.proto .public{min-height:100%;background:#FAF8F5;color:#1B1A19;font-family:Inter,system-ui,sans-serif;font-size:15px;line-height:1.45}
+.proto .csheet{position:absolute;inset:0}
+</style>
+
+<div class="shell">
+  <header class="top">
+    <div class="top-row">
+      <div class="brand"><span class="mark">L</span><span>Beauty Marketplace<small>Proposal and clickable prototype · 26 Nov 2026</small></span></div>
+      <div class="top-tabs" role="tablist" id="tabs"></div>
+      <div class="top-right">
+        <button class="hot-toggle" id="hot" aria-pressed="false" title="Outline every clickable element"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h8l-1 8 10-12h-8z"/></svg><span>Show clickable</span><span class="sw"></span></button>
+        <button class="iconbtn" id="theme" title="Light / dark" aria-label="Toggle light or dark"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      </div>
+    </div>
+    <div class="crumbs"><span id="crumb"></span></div>
+  </header>
+  <main class="stage"><div class="stage-inner" id="stage"></div></main>
+</div>
+
+<template id="t-proposal"><div class="srs">
+<aside class="srs-toc"><div class="toc-h">Contents</div>
+<a class="toc-i" href="#proposal" data-jump="p-glance"><span class="tn">1.</span> At a glance</a>
+<a class="toc-i" href="#proposal" data-jump="p-product"><span class="tn">2.</span> What we are building</a>
+<a class="toc-i" href="#proposal" data-jump="p-design"><span class="tn">3.</span> Design scope</a>
+<a class="toc-i" href="#proposal" data-jump="p-dev"><span class="tn">4.</span> Development scope</a>
+<a class="toc-i" href="#proposal" data-jump="p-cost"><span class="tn">5.</span> Cost</a>
+<a class="toc-i" href="#proposal" data-jump="p-plan"><span class="tn">6.</span> Plan: 3 months</a>
+<a class="toc-i" href="#proposal" data-jump="p-pay"><span class="tn">7.</span> Payment</a>
+<a class="toc-i" href="#proposal" data-jump="p-terms"><span class="tn">8.</span> Ownership, assumptions, not included</a>
+<a class="toc-i" href="#proposal" data-jump="p-next"><span class="tn">9.</span> Next steps</a>
+<a class="toc-i" href="#proposal" data-jump="p-proto"><span class="tn">10.</span> Prototype</a>
+</aside>
+<article class="srs-doc">
+<h2>Beauty Services Marketplace</h2>
+<div class="meta">Proposal for design and development · 26 November 2026 · valid 30 days</div>
+<p class="lead">Design and build the marketplace in three months for USD 20,000, fixed price. Launch in week 12.</p>
+
+<h3 id="p-glance"><span class="hn">1.</span> At a glance</h3>
+<div class="pk-grid"><div class="pk"><b>USD 20,000</b><span>total, fixed price</span></div><div class="pk"><b>12 weeks</b><span>to launch, plus 2 weeks of support</span></div><div class="pk"><b>4 surfaces</b><span>customer app, professional mode, admin console, public page</span></div></div>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th></th><th>Design</th><th>Development</th></tr></thead><tbody>
+<tr><td>Weeks</td><td>1 to 6</td><td>3 to 13</td></tr>
+<tr><td>Delivers</td><td>Flows, wireframes, design system, every screen with its states, clickable prototype, usability test, handoff</td><td>iOS and Android app in customer and professional modes, backend and integrations, admin console, public profile page, store release, 2 weeks of launch support</td></tr>
+</tbody></table></div>
+
+
+<h3 id="p-product"><span class="hn">2.</span> What we are building</h3>
+<p>A mobile app where customers in South Africa find a vetted beauty, cleaning or tattoo professional nearby, compare and book. The same app in professional mode runs the professional's services, availability and bookings. A web console for vetting, payments, moderation and disputes. A public profile page per professional.</p>
+<ul>
+<li>Radius search with list and map; mobile, studio, or both.</li>
+<li>Two booking modes per professional: instant or request.</li>
+<li>Vetting before the first booking, shown on the profile.</li>
+<li>Public reviews of professionals; private reliability notes on clients.</li>
+<li>Card payments, cash for approved professionals, payouts from the console.</li>
+<li>Country, currency and categories as configuration, ready for the next market.</li>
+</ul>
+
+<h3 id="p-design"><span class="hn">3.</span> Design scope</h3>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>#</th><th>Workstream</th><th>You receive</th><th>Weeks</th></tr></thead><tbody>
+<tr><td>1</td><td>UX research and IA</td><td>6 interviews, personas, sitemap, navigation for both modes</td><td>1</td></tr>
+<tr><td>2</td><td>Flows and wireframes</td><td>All flows, about 60 annotated wireframes</td><td>1 to 2</td></tr>
+<tr><td>3</td><td>UI design and design system</td><td>Figma design system, tokens, components with states</td><td>2 to 3</td></tr>
+<tr><td>4</td><td>Responsive layouts</td><td>All screens for app, console and public page, with loading, empty and error states</td><td>3 to 5</td></tr>
+<tr><td>5</td><td>Prototype and usability test</td><td>Figma prototype, 1 round of 5 sessions, findings fixed</td><td>5</td></tr>
+<tr><td>6</td><td>Handoff and specs</td><td>Redlines, component specs, copy deck, acceptance criteria</td><td>5 to 6</td></tr>
+</tbody></table></div>
+<p>One revision round per workstream, with your sign-off at the end of each.</p>
+
+<h3 id="p-dev"><span class="hn">4.</span> Development scope</h3>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Track</th><th>What is built</th><th>Weeks</th></tr></thead><tbody>
+<tr><td>App, customer mode</td><td>Sign-in, search and map, profiles, booking in both modes, card and cash payment, status and reminders, messaging, reschedule and cancel, reviews</td><td>3 to 11</td></tr>
+<tr><td>App, professional mode</td><td>Apply and verify, services and prices, availability and radius, requests, schedule, earnings, client reliability notes, salon profile</td><td>4 to 11</td></tr>
+<tr><td>Backend and integrations</td><td>API, geo search, booking engine, payments and payouts, identity verification, maps, push and SMS, messaging, audit log</td><td>3 to 11</td></tr>
+<tr><td>Admin console</td><td>Vetting, professionals, customers, bookings, payments, disputes, moderation, catalogue, settings, roles</td><td>5 to 11</td></tr>
+<tr><td>Public profile page</td><td>Shareable, indexed page per professional with a Book button</td><td>9 to 10</td></tr>
+<tr><td>Testing and launch</td><td>Automated and device tests, acceptance round, security review, store submission, 2 weeks of launch support</td><td>10 to 13</td></tr>
+</tbody></table></div>
+<p>One Flutter codebase for iOS and Android. Default providers: Paystack or Peach Payments, Smile ID, Google Maps, Firebase.</p>
+
+<h3 id="p-cost"><span class="hn">5.</span> Cost</h3>
+<p><strong>USD 20,000</strong>, fixed price, for everything in the design and development scope above.</p>
+<p>Not included, paid by you: store accounts, payment gateway fees, identity checks, maps usage, hosting, SMS.</p>
+
+<h3 id="p-plan"><span class="hn">6.</span> Plan: 3 months</h3>
+<figure class="fig"><div class="plan-dg">
+<div class="wk-head"><span></span><span>W1</span><span>W2</span><span>W3</span><span>W4</span><span>W5</span><span>W6</span><span>W7</span><span>W8</span><span>W9</span><span>W10</span><span>W11</span><span>W12</span><span>W13</span></div>
+<div class="wk-row"><span class="wk-t"><b>Research, flows, wireframes</b><small>sign-off ends week 2</small></span><span class="wk-c d"></span><span class="wk-c d">G</span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span></div>
+<div class="wk-row"><span class="wk-t"><b>Design system and screens</b><small>customer first, then professional, console, public page</small></span><span class="wk-c"></span><span class="wk-c d"></span><span class="wk-c d"></span><span class="wk-c d"></span><span class="wk-c d"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span></div>
+<div class="wk-row"><span class="wk-t"><b>Prototype, usability test, handoff</b><small>design signed off week 6</small></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c d"></span><span class="wk-c d">G</span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span></div>
+<div class="wk-row"><span class="wk-t"><b>Backend and app, both modes</b><small>starts on approved wireframes</small></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c b"></span><span class="wk-c b"></span><span class="wk-c b"></span><span class="wk-c b"></span><span class="wk-c b"></span><span class="wk-c b"></span><span class="wk-c b"></span><span class="wk-c b">G</span><span class="wk-c b"></span><span class="wk-c"></span><span class="wk-c"></span></div>
+<div class="wk-row"><span class="wk-t"><b>Admin console and public page</b></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c b"></span><span class="wk-c b"></span><span class="wk-c b"></span><span class="wk-c b"></span><span class="wk-c b"></span><span class="wk-c b"></span><span class="wk-c b"></span><span class="wk-c"></span><span class="wk-c"></span></div>
+<div class="wk-row"><span class="wk-t"><b>Testing, stores, launch</b><small>submission week 12, support to week 13</small></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c"></span><span class="wk-c g"></span><span class="wk-c g"></span><span class="wk-c g">L</span><span class="wk-c g"></span></div>
+<div class="wk-legend"><span><i class="d"></i>Design</span><span><i class="b"></i>Development</span><span><i class="g"></i>Testing and launch</span><span>G = your sign-off · L = launch</span></div>
+</div><figcaption>Development starts in week 3 on approved wireframes. Launch in week 12.</figcaption></figure>
+<p>Three sign-offs: wireframes (week 2), design (week 6), beta (week 10). A late sign-off moves everything after it.</p>
+
+<h3 id="p-pay"><span class="hn">7.</span> Payment</h3>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Milestone</th><th>Week</th><th class="num">USD</th></tr></thead><tbody>
+<tr><td>Signing</td><td>0</td><td class="num">5,000</td></tr>
+<tr><td>Design signed off</td><td>6</td><td class="num">5,000</td></tr>
+<tr><td>Beta accepted</td><td>10</td><td class="num">5,000</td></tr>
+<tr><td>Launch</td><td>12</td><td class="num">5,000</td></tr>
+<tr class="total"><td>Total</td><td></td><td class="num">20,000</td></tr>
+</tbody></table></div>
+<p>USD, bank transfer, 14 days. Valid 30 days from the date above.</p>
+
+<h3 id="p-terms"><span class="hn">8.</span> Ownership, assumptions, not included</h3>
+<p><strong>Ownership</strong></p>
+<ul>
+<li>On final payment you own the design files, design system, prototype, source code and assets.</li>
+<li>Fonts, images and libraries stay under their own licences, all free for commercial use.</li>
+</ul>
+<p><strong>Assumptions</strong></p>
+<ul>
+<li>The blueprint matches about 60 screens on four surfaces; if larger, we re-estimate before signing.</li>
+<li>South Africa, rand and English at launch.</li>
+<li>You provide the brand: name, logo and colours.</li>
+<li>You own the store, payment, verification, maps and cloud accounts.</li>
+<li>Feedback within 2 working days; one decision maker.</li>
+<li>You supply categories, pricing rules, policies and terms.</li>
+<li>iOS 16+ and Android 10+, phones only.</li>
+</ul>
+<p><strong>Not included</strong></p>
+<ul>
+<li>Marketing website, salon team tools, tablet layouts, offline mode, AI features.</li>
+<li>Legal review of terms and payments compliance.</li>
+<li>Hosting operations after launch support.</li>
+<li>Data migration.</li>
+</ul>
+
+<h3 id="p-next"><span class="hn">9.</span> Next steps</h3>
+<ol>
+<li>Confirm interest, sign the NDA.</li>
+<li>We read the blueprint and send questions within 3 working days.</li>
+<li>Question call, with a prototype walkthrough.</li>
+<li>Final proposal within 5 working days.</li>
+<li>Signing and kick-off.</li>
+</ol>
+
+<h3 id="p-proto"><span class="hn">10.</span> Prototype</h3>
+<p>Every surface is in this page, clickable: <button class="proto-link" data-view="map">Open the screens</button></p>
+<ul>
+<li>Customer app: explore, results, profile, book, pay, booking status, messages.</li>
+<li>Professional mode: today, requests, services and hours, verification.</li>
+<li>Admin console: vetting queue, bookings and disputes.</li>
+<li>Public profile page.</li>
+</ul>
+<p>Name, colours, photos and copy are placeholders. The flows and the structure are the proposal.</p>
+</article>
+</div>
+</template>
+<template id="t-Main"><div class="phone">
+  <div class="scroll">
+
+    <div class="topbar">
+      <div class="grow" style="display:flex;flex-direction:column;gap:2px">
+        <span class="small muted">Good morning, Thandi</span>
+        <a href="#" data-go="Search" class="row" style="gap:6px;font-weight:700;font-size:16px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1F5B4B" stroke-width="2" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          Rosebank, Johannesburg
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </a>
+      </div>
+      <a href="#" data-go="Chat" class="back" aria-label="Notifications">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21h4"/></svg>
+      </a>
+      <div class="avatar sm">T</div>
+    </div>
+
+    <a href="#" data-go="Search" class="input" style="background:#fff">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      Nails, braids, lashes, tattoo, cleaning…
+    </a>
+
+    <div class="chips">
+      <a href="#" data-go="Search" class="chip on">All</a>
+      <a href="#" data-go="Search" class="chip">Hair</a>
+      <a href="#" data-go="Search" class="chip">Nails</a>
+      <a href="#" data-go="Search" class="chip">Lashes &amp; brows</a>
+      <a href="#" data-go="Search" class="chip">Makeup</a>
+      <a href="#" data-go="Search" class="chip">Massage</a>
+      <a href="#" data-go="Search" class="chip">Tattoo</a>
+      <a href="#" data-go="Search" class="chip">Cleaning</a>
+    </div>
+
+    <a href="#" data-go="Booking" class="card soft" style="display:flex;align-items:center;gap:12px">
+      <div style="width:44px;height:44px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;flex:none">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1F5B4B" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+      </div>
+      <div class="grow col" style="gap:2px">
+        <span class="xs b" style="color:#153F34;letter-spacing:.04em;text-transform:uppercase">Your next appointment</span>
+        <span class="b">Gel nails with Naledi · Tomorrow 10:00</span>
+        <span class="small muted">She comes to you · Rosebank</span>
+      </div>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#153F34" stroke-width="2" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    </a>
+
+    <div class="col" style="gap:10px">
+      <div class="row between">
+        <h2 class="h-sec">Near you</h2>
+        <a href="#" data-go="Search" class="small b" style="color:#1F5B4B">Open map</a>
+      </div>
+      <a href="#" data-go="Search" style="display:block;height:150px;border-radius:20px;position:relative;overflow:hidden;background:#EDE8E2;background-image:linear-gradient(#E2DBD3 1px,transparent 1px),linear-gradient(90deg,#E2DBD3 1px,transparent 1px);background-size:34px 34px" aria-label="Map of professionals near you">
+        <div style="position:absolute;left:18%;top:20%;width:60%;height:10px;background:#F7F3EE;border-radius:5px;transform:rotate(-12deg)"></div>
+        <div style="position:absolute;left:52%;top:10%;width:10px;height:80%;background:#F7F3EE;border-radius:5px;transform:rotate(20deg)"></div>
+        <div style="position:absolute;left:30%;top:36%;width:34px;height:34px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#1F5B4B;border:3px solid #fff;box-shadow:0 4px 10px rgba(0,0,0,.2)"></div>
+        <div style="position:absolute;left:62%;top:52%;width:34px;height:34px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#1F5B4B;border:3px solid #fff;box-shadow:0 4px 10px rgba(0,0,0,.2)"></div>
+        <div style="position:absolute;left:74%;top:22%;width:34px;height:34px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#8A4B3C;border:3px solid #fff;box-shadow:0 4px 10px rgba(0,0,0,.2)"></div>
+        <div style="position:absolute;left:46%;top:60%;width:14px;height:14px;border-radius:50%;background:#2F6FE0;border:3px solid #fff;box-shadow:0 0 0 8px rgba(47,111,224,.18)"></div>
+        <div style="position:absolute;left:12px;bottom:12px" class="tag ink">12 professionals within 5 km</div>
+      </a>
+    </div>
+
+    <div class="col" style="gap:10px">
+      <div class="row between">
+        <h2 class="h-sec">Top rated near you</h2>
+        <a href="#" data-go="Search" class="small b" style="color:#1F5B4B">See all</a>
+      </div>
+      <div style="display:flex;gap:12px;overflow-x:auto;margin:0 -20px;padding:0 20px 4px;flex:none">
+        <a href="#" data-go="Profile" class="card" style="width:200px;flex:none;padding:12px;display:flex;flex-direction:column;gap:10px">
+          <div class="photo" style="height:120px"><span class="tag ok" style="position:absolute;left:8px;top:8px">Verified</span></div>
+          <div class="col" style="gap:2px">
+            <span class="b">Naledi Nkosi</span>
+            <span class="small muted">Nails · 1.2 km · Mobile</span>
+            <span class="small"><span class="stars">★ 4.9</span> <span class="muted">(212) · from R250</span></span>
+          </div>
+        </a>
+        <a href="#" data-go="Profile" class="card" style="width:200px;flex:none;padding:12px;display:flex;flex-direction:column;gap:10px">
+          <div class="photo g2" style="height:120px"><span class="tag ok" style="position:absolute;left:8px;top:8px">Verified</span></div>
+          <div class="col" style="gap:2px">
+            <span class="b">Studio Amara</span>
+            <span class="small muted">Braids · 2.4 km · Studio</span>
+            <span class="small"><span class="stars">★ 4.8</span> <span class="muted">(96) · from R450</span></span>
+          </div>
+        </a>
+        <a href="#" data-go="Profile" class="card" style="width:200px;flex:none;padding:12px;display:flex;flex-direction:column;gap:10px">
+          <div class="photo g4" style="height:120px"><span class="tag ok" style="position:absolute;left:8px;top:8px">Verified</span></div>
+          <div class="col" style="gap:2px">
+            <span class="b">Ink by Sipho</span>
+            <span class="small muted">Tattoo · 3.1 km · Studio</span>
+            <span class="small"><span class="stars">★ 5.0</span> <span class="muted">(41) · from R800</span></span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col" style="gap:10px">
+      <h2 class="h-sec">Book it again</h2>
+      <a href="#" data-go="Profile" class="card row" style="gap:12px">
+        <div class="avatar">L</div>
+        <div class="grow col" style="gap:2px">
+          <span class="b">Lash lift with Lerato</span>
+          <span class="small muted">Last visit 3 weeks ago · Studio · R380</span>
+        </div>
+        <span class="btn sm soft">Rebook</span>
+      </a>
+    </div>
+
+    <a href="#" data-go="ProHome" class="card blush row" style="gap:12px">
+      <div class="grow col" style="gap:2px">
+        <span class="b">Are you a beauty professional?</span>
+        <span class="small muted">Apply, get verified and take bookings in the same app.</span>
+      </div>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A4B3C" stroke-width="2" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    </a>
+
+  </div>
+
+  <nav class="nav" aria-label="Main">
+    <a href="#" data-go="Main" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Explore</a>
+    <a href="#" data-go="Booking"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Bookings</a>
+    <a href="#" data-go="Chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg>Messages</a>
+    <a href="#" data-go="ProHome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Profile</a>
+  </nav>
+</div></template>
+<template id="t-Search"><div class="phone">
+  <div class="scroll" style="gap:14px">
+
+    <div class="topbar">
+      <a href="#" data-go="Main" class="back" aria-label="Back">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>
+      </a>
+      <div class="input grow" style="height:44px;color:#1B1A19;font-weight:600">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        Nails
+        <span class="muted" style="font-weight:400;margin-left:auto">Rosebank</span>
+      </div>
+    </div>
+
+    <div class="chips">
+      <span class="chip on">Within 5 km</span>
+      <span class="chip">Comes to you</span>
+      <span class="chip">Studio</span>
+      <span class="chip">Today</span>
+      <span class="chip">Price</span>
+      <span class="chip">Instant book</span>
+    </div>
+
+    <div class="row between">
+      <span class="small muted"><span class="b" style="color:#1B1A19">12 professionals</span> · sorted by distance</span>
+      <div class="row" style="gap:0;background:#fff;border:1px solid #E9E3DD;border-radius:12px;padding:3px">
+        <span class="tag ink" style="height:28px;border-radius:9px">List</span>
+        <span class="tag" style="height:28px;color:#6B635D">Map</span>
+      </div>
+    </div>
+
+    <div style="height:120px;border-radius:18px;position:relative;overflow:hidden;background:#EDE8E2;background-image:linear-gradient(#E2DBD3 1px,transparent 1px),linear-gradient(90deg,#E2DBD3 1px,transparent 1px);background-size:34px 34px" aria-hidden="true">
+      <div style="position:absolute;left:10%;top:40%;width:80%;height:10px;background:#F7F3EE;border-radius:5px;transform:rotate(-8deg)"></div>
+      <div style="position:absolute;left:22%;top:28%;height:30px;padding:0 10px;border-radius:15px;background:#1F5B4B;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;border:2px solid #fff">R250</div>
+      <div style="position:absolute;left:56%;top:50%;height:30px;padding:0 10px;border-radius:15px;background:#1F5B4B;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;border:2px solid #fff">R320</div>
+      <div style="position:absolute;left:76%;top:18%;height:30px;padding:0 10px;border-radius:15px;background:#fff;color:#1B1A19;font-size:12px;font-weight:700;display:flex;align-items:center;border:2px solid #E9E3DD">R450</div>
+      <div style="position:absolute;left:44%;top:66%;width:14px;height:14px;border-radius:50%;background:#2F6FE0;border:3px solid #fff;box-shadow:0 0 0 8px rgba(47,111,224,.18)"></div>
+    </div>
+
+    <a href="#" data-go="Profile" class="card row" style="gap:12px;align-items:flex-start;padding:12px">
+      <div class="photo" style="width:92px;height:92px;flex:none;border-radius:12px"></div>
+      <div class="grow col" style="gap:4px">
+        <div class="row between" style="gap:6px"><span class="b" style="font-size:16px">Naledi Nkosi</span><span class="tag ok">Verified</span></div>
+        <span class="small muted">Gel, acrylic, nail art · 6 yrs</span>
+        <span class="small"><span class="stars">★ 4.9</span> <span class="muted">(212)</span> · 1.2 km</span>
+        <div class="row" style="gap:6px;flex-wrap:wrap"><span class="tag blush">Comes to you</span><span class="tag ink">Instant book</span></div>
+        <span class="small"><span class="b">from R250</span> <span class="muted">· next: tomorrow 10:00</span></span>
+      </div>
+    </a>
+
+    <a href="#" data-go="Profile" class="card row" style="gap:12px;align-items:flex-start;padding:12px">
+      <div class="photo g3" style="width:92px;height:92px;flex:none;border-radius:12px"></div>
+      <div class="grow col" style="gap:4px">
+        <div class="row between" style="gap:6px"><span class="b" style="font-size:16px">Zanele's Nail Bar</span><span class="tag ok">Verified</span></div>
+        <span class="small muted">Studio in Parkhurst · 3 chairs</span>
+        <span class="small"><span class="stars">★ 4.7</span> <span class="muted">(158)</span> · 2.0 km</span>
+        <div class="row" style="gap:6px;flex-wrap:wrap"><span class="tag ink">Studio</span><span class="tag warn">Request to book</span></div>
+        <span class="small"><span class="b">from R320</span> <span class="muted">· replies within 1 h</span></span>
+      </div>
+    </a>
+
+    <a href="#" data-go="Profile" class="card row" style="gap:12px;align-items:flex-start;padding:12px">
+      <div class="photo g2" style="width:92px;height:92px;flex:none;border-radius:12px"></div>
+      <div class="grow col" style="gap:4px">
+        <div class="row between" style="gap:6px"><span class="b" style="font-size:16px">Precious M.</span><span class="tag ok">Verified</span></div>
+        <span class="small muted">Gel and BIAB · 3 yrs</span>
+        <span class="small"><span class="stars">★ 4.8</span> <span class="muted">(64)</span> · 2.6 km</span>
+        <div class="row" style="gap:6px;flex-wrap:wrap"><span class="tag blush">Comes to you</span><span class="tag ink">Studio</span><span class="tag ink">Instant book</span></div>
+        <span class="small"><span class="b">from R280</span> <span class="muted">· next: today 16:30</span></span>
+      </div>
+    </a>
+
+    <a href="#" data-go="Profile" class="card row" style="gap:12px;align-items:flex-start;padding:12px">
+      <div class="photo g4" style="width:92px;height:92px;flex:none;border-radius:12px"></div>
+      <div class="grow col" style="gap:4px">
+        <div class="row between" style="gap:6px"><span class="b" style="font-size:16px">Glow Room by Ayanda</span><span class="tag ok">Verified</span></div>
+        <span class="small muted">Studio in Melville · nails and lashes</span>
+        <span class="small"><span class="stars">★ 4.9</span> <span class="muted">(301)</span> · 4.4 km</span>
+        <div class="row" style="gap:6px;flex-wrap:wrap"><span class="tag ink">Studio</span><span class="tag ink">Instant book</span></div>
+        <span class="small"><span class="b">from R450</span> <span class="muted">· next: Fri 09:00</span></span>
+      </div>
+    </a>
+
+  </div>
+
+  <nav class="nav" aria-label="Main">
+    <a href="#" data-go="Main" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Explore</a>
+    <a href="#" data-go="Booking"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Bookings</a>
+    <a href="#" data-go="Chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg>Messages</a>
+    <a href="#" data-go="ProHome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Profile</a>
+  </nav>
+</div></template>
+<template id="t-Profile"><div class="phone">
+  <div class="scroll" style="padding:0 0 110px;gap:0">
+
+    <div class="photo" style="height:260px;border-radius:0">
+      <div style="position:absolute;left:20px;top:52px;right:20px;display:flex;justify-content:space-between">
+        <a href="#" data-go="Search" class="back" aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></a>
+        <div class="row" style="gap:8px">
+          <a href="#" data-go="PublicProfile" class="back" aria-label="Share profile"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg></a>
+          <span class="back" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span>
+        </div>
+      </div>
+      <div style="position:absolute;left:20px;bottom:16px;display:flex;gap:6px"><span class="tag ok">Verified</span><span class="tag blush">Comes to you</span><span class="tag ink">Instant booking</span></div>
+    </div>
+
+    <div style="padding:16px 20px 0;display:flex;flex-direction:column;gap:18px">
+
+      <div class="col" style="gap:6px">
+        <div class="row between">
+          <h1 class="h-title">Naledi Nkosi</h1>
+          <span class="b" style="font-size:16px"><span class="stars">★ 4.9</span> <span class="muted small">(212)</span></span>
+        </div>
+        <span class="muted">Nail technician · Rosebank · 1.2 km away · 6 years</span>
+        <span class="small">Gel, acrylic, BIAB and hand-painted nail art. I travel within 10 km of Rosebank or you can visit my home studio in Parkhurst.</span>
+      </div>
+
+      <div class="card" style="display:flex;flex-direction:column;gap:10px;padding:14px 16px">
+        <div class="row between">
+          <span class="b row" style="gap:8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F5B4B" stroke-width="2" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>Verification</span>
+          <span class="xs muted">Vetted 12 Nov 2026</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px" class="small">
+          <span class="row" style="gap:6px"><span class="tag ok" style="width:20px;height:20px;padding:0;justify-content:center">✓</span>ID document</span>
+          <span class="row" style="gap:6px"><span class="tag ok" style="width:20px;height:20px;padding:0;justify-content:center">✓</span>Selfie match</span>
+          <span class="row" style="gap:6px"><span class="tag ok" style="width:20px;height:20px;padding:0;justify-content:center">✓</span>Qualification</span>
+          <span class="row" style="gap:6px"><span class="tag ok" style="width:20px;height:20px;padding:0;justify-content:center">✓</span>Studio address</span>
+        </div>
+      </div>
+
+      <div class="col" style="gap:10px">
+        <div class="row between"><h2 class="h-sec">Work</h2><span class="small b" style="color:#1F5B4B">48 photos</span></div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+          <div class="photo" style="aspect-ratio:1;border-radius:12px"></div>
+          <div class="photo g3" style="aspect-ratio:1;border-radius:12px"></div>
+          <div class="photo g4" style="aspect-ratio:1;border-radius:12px"></div>
+          <div class="photo g2" style="aspect-ratio:1;border-radius:12px"></div>
+          <div class="photo g4" style="aspect-ratio:1;border-radius:12px"></div>
+          <div class="photo" style="aspect-ratio:1;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;background:#8A4B3C">+43</div>
+        </div>
+      </div>
+
+      <div class="col" style="gap:10px">
+        <h2 class="h-sec">Services</h2>
+        <div class="card" style="padding:0">
+          <a href="#" data-go="Book" class="row" style="padding:14px 16px;gap:12px">
+            <div class="grow col" style="gap:2px"><span class="b">Gel overlay</span><span class="small muted">60 min</span></div>
+            <span class="b">R250</span>
+            <span class="btn sm soft">Book</span>
+          </a>
+          <div class="hair"></div>
+          <a href="#" data-go="Book" class="row" style="padding:14px 16px;gap:12px">
+            <div class="grow col" style="gap:2px"><span class="b">Acrylic full set</span><span class="small muted">90 min</span></div>
+            <span class="b">R380</span>
+            <span class="btn sm soft">Book</span>
+          </a>
+          <div class="hair"></div>
+          <a href="#" data-go="Book" class="row" style="padding:14px 16px;gap:12px">
+            <div class="grow col" style="gap:2px"><span class="b">Nail art, per nail</span><span class="small muted">10 min</span></div>
+            <span class="b">R30</span>
+            <span class="btn sm soft">Book</span>
+          </a>
+          <div class="hair"></div>
+          <a href="#" data-go="Book" class="row" style="padding:14px 16px;gap:12px">
+            <div class="grow col" style="gap:2px"><span class="b">Soak off and removal</span><span class="small muted">30 min</span></div>
+            <span class="b">R120</span>
+            <span class="btn sm soft">Book</span>
+          </a>
+        </div>
+        <span class="small muted">Travel fee R60 within 10 km. Cash accepted (approved professional).</span>
+      </div>
+
+      <div class="card soft row" style="gap:12px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#153F34" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <div class="grow col" style="gap:2px"><span class="b" style="color:#153F34">Next available: tomorrow 10:00</span><span class="small" style="color:#153F34">Mon to Sat, 08:00 to 18:00</span></div>
+      </div>
+
+      <div class="col" style="gap:10px">
+        <div class="row between"><h2 class="h-sec">Reviews</h2><span class="small b" style="color:#1F5B4B">See all 212</span></div>
+        <div class="card col" style="gap:8px">
+          <div class="row" style="gap:10px"><div class="avatar sm">K</div><div class="grow col" style="gap:0"><span class="b small">Khanyi</span><span class="xs muted">2 days ago · Gel overlay</span></div><span class="stars small">★★★★★</span></div>
+          <span class="small">On time, super gentle and the chrome finish is exactly what I showed her. Already booked again.</span>
+        </div>
+        <div class="card col" style="gap:8px">
+          <div class="row" style="gap:10px"><div class="avatar sm">B</div><div class="grow col" style="gap:0"><span class="b small">Busi</span><span class="xs muted">1 week ago · Acrylic full set</span></div><span class="stars small">★★★★★</span></div>
+          <span class="small">Came to my flat with everything. Lasted three weeks without a chip.</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="pricebar">
+    <div class="grow col" style="gap:0"><span class="xs muted">Starting from</span><span class="b" style="font-size:18px">R250</span></div>
+    <a href="#" data-go="Book" class="btn" style="width:190px">Book now</a>
+  </div>
+</div></template>
+<template id="t-Book"><div class="phone">
+  <div class="scroll" style="padding-bottom:120px;gap:22px">
+
+    <div class="topbar">
+      <a href="#" data-go="Profile" class="back" aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></a>
+      <div class="grow col" style="gap:0"><h1 class="h-sec" style="font-size:18px">Book with Naledi</h1><span class="small muted">Step 1 of 2 · where and when</span></div>
+    </div>
+
+    <div class="card row" style="gap:12px">
+      <div class="avatar">N</div>
+      <div class="grow col" style="gap:2px"><span class="b">Gel overlay</span><span class="small muted">60 min · R250</span></div>
+      <a href="#" data-go="Profile" class="small b" style="color:#1F5B4B">Change</a>
+    </div>
+
+    <div class="col" style="gap:10px">
+      <h2 class="h-sec">Where?</h2>
+      <button class="opt on">
+        <span class="radio"></span>
+        <span class="grow col" style="gap:2px"><span class="b">She comes to you</span><span class="small muted">12 Oak Avenue, Rosebank · travel fee R60</span></span>
+        <span class="tag blush">Mobile</span>
+      </button>
+      <button class="opt ">
+        <span class="radio"></span>
+        <span class="grow col" style="gap:2px"><span class="b">Her home studio</span><span class="small muted">Parkhurst · 2.4 km from you · no travel fee</span></span>
+        <span class="tag ink">Studio</span>
+      </button>
+    </div>
+
+    <div class="col" style="gap:10px">
+      <div class="row between"><h2 class="h-sec">When?</h2><span class="small muted">November 2026</span></div>
+      <div class="days">
+        <button class="day on"><span class="xs" style="opacity:.75">Thu</span><span style="font-size:17px;font-weight:800">27</span></button>
+<button class="day"><span class="xs" style="opacity:.75">Fri</span><span style="font-size:17px;font-weight:800">28</span></button>
+<button class="day"><span class="xs" style="opacity:.75">Sat</span><span style="font-size:17px;font-weight:800">29</span></button>
+<button class="day"><span class="xs" style="opacity:.75">Sun</span><span style="font-size:17px;font-weight:800">30</span></button>
+<button class="day"><span class="xs" style="opacity:.75">Mon</span><span style="font-size:17px;font-weight:800">1</span></button>
+<button class="day"><span class="xs" style="opacity:.75">Tue</span><span style="font-size:17px;font-weight:800">2</span></button>
+<button class="day"><span class="xs" style="opacity:.75">Wed</span><span style="font-size:17px;font-weight:800">3</span></button>
+      </div>
+      <div class="slots">
+        <button class="slot">08:00</button><button class="slot off">09:00</button><button class="slot on">10:00</button><button class="slot">11:30</button><button class="slot">13:00</button><button class="slot off">14:30</button><button class="slot">16:00</button><button class="slot">17:00</button>
+      </div>
+      <span class="small muted">Times are shown for Johannesburg. Naledi confirms instantly.</span>
+    </div>
+
+    <div class="col" style="gap:10px">
+      <h2 class="h-sec">Add-ons</h2>
+      <div class="card row" style="gap:12px">
+        <div class="grow col" style="gap:2px"><span class="b">Nail art</span><span class="small muted">R30 per nail · 10 min each</span></div>
+        <div class="row" style="gap:0;border:1.5px solid #E9E3DD;border-radius:12px;overflow:hidden">
+          <button aria-label="Fewer nails" style="width:40px;height:40px;border:0;background:#fff;font-size:20px;cursor:pointer">−</button>
+          <span style="width:32px;text-align:center;font-weight:800">2</span>
+          <button aria-label="More nails" style="width:40px;height:40px;border:0;background:#fff;font-size:20px;cursor:pointer">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="note">Note for Naledi (optional)</label>
+      <textarea id="note" placeholder="Reference photos, allergies, parking…"></textarea>
+    </div>
+
+  </div>
+
+  <div class="pricebar">
+    <div class="grow col" style="gap:0"><span class="xs muted">Thu 27, 10:00 · at your place</span><span class="b" style="font-size:18px">R390</span></div>
+    <a href="#" data-go="Pay" class="btn" style="width:170px">Continue</a>
+  </div>
+</div></template>
+<template id="t-Pay"><div class="phone">
+  <div class="scroll" style="padding-bottom:120px;gap:22px">
+
+    <div class="topbar">
+      <a href="#" data-go="Book" class="back" aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></a>
+      <div class="grow col" style="gap:0"><h1 class="h-sec" style="font-size:18px">Confirm and pay</h1><span class="small muted">Step 2 of 2</span></div>
+    </div>
+
+    <div class="card col" style="gap:12px">
+      <div class="row" style="gap:12px">
+        <div class="avatar">N</div>
+        <div class="grow col" style="gap:2px"><span class="b">Naledi Nkosi</span><span class="small muted"><span class="stars">★ 4.9</span> · Verified · Instant booking</span></div>
+      </div>
+      <div class="hair"></div>
+      <div class="col small" style="gap:8px">
+        <div class="row" style="gap:10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B635D" stroke-width="2" aria-hidden="true"><path d="M20 7 9 18l-5-5"/></svg><span>Gel overlay · 60 min + nail art × 2</span></div>
+        <div class="row" style="gap:10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B635D" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Thu 27 Nov, 10:00 to 11:20</span></div>
+        <div class="row" style="gap:10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B635D" stroke-width="2" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span>She comes to you · 12 Oak Avenue, Rosebank</span></div>
+      </div>
+    </div>
+
+    <div class="col" style="gap:10px">
+      <h2 class="h-sec">Pay with</h2>
+      <button class="opt on">
+        <span class="radio"></span>
+        <span class="grow col" style="gap:2px"><span class="b">Visa •••• 4821</span><span class="small muted">Expires 09/28</span></span>
+        <span class="tag ink">Default</span>
+      </button>
+      <button class="opt ">
+        <span class="radio"></span>
+        <span class="grow col" style="gap:2px"><span class="b">Cash to Naledi</span><span class="small muted">Pay on the day. Allowed for approved professionals.</span></span>
+      </button>
+      <button class="opt">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F5B4B" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        <span class="grow b" style="color:#1F5B4B">Add a new card</span>
+      </button>
+    </div>
+
+    <div class="card col" style="gap:8px">
+      <div class="row between small"><span>Gel overlay</span><span>R250</span></div>
+      <div class="row between small"><span>Nail art × 2</span><span>R60</span></div>
+      <div class="row between small"><span>Travel fee</span><span>R60</span></div>
+      <div class="row between small"><span>Booking fee</span><span>R20</span></div>
+      <div class="hair"></div>
+      <div class="row between b"><span>Total</span><span>R390</span></div>
+      <span class="xs muted">Charged now. Refunded in full if Naledi cancels.</span>
+    </div>
+
+    <div class="card soft col" style="gap:4px">
+      <span class="b small" style="color:#153F34">Free cancellation until Wed 26 Nov, 10:00</span>
+      <span class="xs" style="color:#153F34">After that, 50% is charged. Naledi can reschedule once with your agreement.</span>
+    </div>
+
+  </div>
+
+  <div class="pricebar">
+    <div class="grow col" style="gap:0"><span class="xs muted">Total</span><span class="b" style="font-size:18px">R390</span></div>
+    <a href="#" data-go="Booking" class="btn" style="width:210px">Pay R390 and confirm</a>
+  </div>
+</div></template>
+<template id="t-Booking"><div class="phone">
+  <div class="scroll" style="gap:16px">
+
+    <div class="row between">
+      <h1 class="h-title">Bookings</h1>
+      <div class="row" style="gap:0;background:#fff;border:1px solid #E9E3DD;border-radius:12px;padding:3px">
+        <span class="tag ink" style="height:28px;border-radius:9px">Upcoming · 2</span>
+        <span class="tag" style="height:28px;color:#6B635D">Past</span>
+      </div>
+    </div>
+
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="background:#1F5B4B;color:#fff;padding:16px;display:flex;flex-direction:column;gap:10px">
+        <div class="row between">
+          <span class="tag" style="background:rgba(255,255,255,.18);color:#fff">Confirmed</span>
+          <span class="xs" style="opacity:.85">#LM-240918</span>
+        </div>
+        <div class="col" style="gap:2px">
+          <span style="font-family:Manrope,Inter,sans-serif;font-size:22px;font-weight:800">Gel overlay + nail art</span>
+          <span class="small" style="opacity:.9">Thu 27 Nov · 10:00 to 11:20 · at your place</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:4px">
+          <span style="display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center"><span style="width:22px;height:22px;border-radius:50%;background:#fff;color:#1F5B4B;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800">✓</span><span class="xs">Booked</span></span>
+          <span style="display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center"><span style="width:22px;height:22px;border-radius:50%;background:#fff;color:#1F5B4B;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800">✓</span><span class="xs">Confirmed</span></span>
+          <span style="display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center"><span style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.25);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800">3</span><span class="xs" style="opacity:.8">On the way</span></span>
+          <span style="display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center"><span style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.25);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800">4</span><span class="xs" style="opacity:.8">Done</span></span>
+        </div>
+      </div>
+
+      <div style="padding:14px 16px;display:flex;flex-direction:column;gap:14px">
+        <div class="row" style="gap:12px">
+          <div class="avatar">N</div>
+          <div class="grow col" style="gap:2px"><span class="b">Naledi Nkosi</span><span class="small muted">Verified · <span class="stars">★ 4.9</span></span></div>
+          <a href="#" data-go="Chat" class="back" aria-label="Message Naledi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg></a>
+          <span class="back" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+          <div class="col" style="gap:2px;background:#FAF8F5;border-radius:12px;padding:10px"><span class="xs muted">When</span><span class="small b">Thu 10:00</span><span class="xs muted">80 min</span></div>
+          <div class="col" style="gap:2px;background:#FAF8F5;border-radius:12px;padding:10px"><span class="xs muted">Where</span><span class="small b">Your place</span><span class="xs muted">12 Oak Ave</span></div>
+          <div class="col" style="gap:2px;background:#FAF8F5;border-radius:12px;padding:10px"><span class="xs muted">Paid</span><span class="small b">R390</span><span class="xs muted">Visa 4821</span></div>
+        </div>
+
+        <div class="card soft row" style="gap:10px;padding:12px">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#153F34" stroke-width="2" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21h4"/></svg>
+          <span class="small" style="color:#153F34">We will remind you 24 hours and 2 hours before. You can track Naledi on the day.</span>
+        </div>
+
+        <div class="row" style="gap:8px">
+          <a href="#" data-go="Book" class="btn ghost" style="height:44px;font-size:14px">Reschedule</a>
+          <a href="#" data-go="Chat" class="btn ghost" style="height:44px;font-size:14px">Message</a>
+          <button class="btn danger" style="height:44px;font-size:14px;width:auto;padding:0 16px" data-sheet="open">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <a href="#" data-go="Profile" class="card row" style="gap:12px">
+      <div class="avatar" style="background:#DCE7E1;color:#153F34">L</div>
+      <div class="grow col" style="gap:2px">
+        <div class="row between"><span class="b">Lash lift</span><span class="tag warn">Awaiting reply</span></div>
+        <span class="small muted">Lerato · Fri 28 Nov, 14:00 · her studio, Melville</span>
+        <span class="xs muted">Booking request sent 20 min ago. Lerato usually replies within 1 hour.</span>
+      </div>
+    </a>
+
+    <div class="col" style="gap:10px">
+      <h2 class="h-sec">Rate your last visit</h2>
+      <div class="card col" style="gap:10px">
+        <div class="row" style="gap:12px"><div class="avatar sm">P</div><div class="grow col" style="gap:0"><span class="b small">Precious M. · Gel and BIAB</span><span class="xs muted">Completed Sat 15 Nov</span></div></div>
+        <div class="row" style="gap:6px;font-size:28px;color:#C9931F">★★★★<span style="color:#E9E3DD">★</span></div>
+        <span class="btn sm soft" style="align-self:flex-start">Write a review</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="csheet" hidden>
+    <div style="position:absolute;inset:0;background:rgba(27,26,25,.45)"></div>
+    <div class="sheet">
+      <div class="grab"></div>
+      <h2 class="h-sec" style="font-size:20px">Cancel this booking?</h2>
+      <span class="small muted">It is more than 24 hours away, so you get a full refund of R390 to your Visa within 3 to 5 days. Naledi is told right away.</span>
+      <button class="btn danger" data-sheet="close">Yes, cancel the booking</button>
+      <button class="btn ghost" data-sheet="close">Keep it</button>
+    </div>
+  </div>
+
+  <nav class="nav" aria-label="Main">
+    <a href="#" data-go="Main"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Explore</a>
+    <a href="#" data-go="Booking" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Bookings</a>
+    <a href="#" data-go="Chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg>Messages</a>
+    <a href="#" data-go="ProHome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Profile</a>
+  </nav>
+</div></template>
+<template id="t-Chat"><div class="phone">
+  <div style="position:absolute;left:0;right:0;top:0;padding:52px 20px 12px;background:#FAF8F5;border-bottom:1px solid #E9E3DD;display:flex;flex-direction:column;gap:10px;z-index:2">
+    <div class="topbar">
+      <a href="#" data-go="Booking" class="back" aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></a>
+      <div class="avatar sm">N</div>
+      <div class="grow col" style="gap:0"><span class="b">Naledi Nkosi</span><span class="xs muted">Usually replies within 10 min</span></div>
+      <span class="back" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></span>
+    </div>
+    <a href="#" data-go="Booking" class="row" style="gap:8px;background:#fff;border:1px solid #E9E3DD;border-radius:12px;padding:8px 12px">
+      <span class="tag ok">Confirmed</span>
+      <span class="small grow">Gel overlay · Thu 27 Nov, 10:00</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B635D" stroke-width="2" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    </a>
+  </div>
+
+  <div class="scroll" style="padding:180px 20px 150px;gap:10px">
+    <span class="xs muted" style="align-self:center">Today</span>
+    <div class="bubble them">Hi Thandi! Booking confirmed for Thursday at 10. Do you have a reference for the nail art?</div>
+    <span class="xs muted" style="align-self:flex-start;padding-left:6px">09:12</span>
+    <div class="bubble me">Yes, something like this, chrome on the ring fingers only.</div>
+    <div class="photo g4" style="width:160px;height:120px;align-self:flex-end;border-radius:14px;display:flex;align-items:flex-end;padding:8px;box-sizing:border-box"><span class="tag" style="background:rgba(255,255,255,.85)">Photo</span></div>
+    <span class="xs muted" style="align-self:flex-end;padding-right:6px">09:14 · Read</span>
+    <div class="bubble them">Perfect, I have that chrome. Is there parking at Oak Avenue?</div>
+    <span class="xs muted" style="align-self:flex-start;padding-left:6px">09:20</span>
+    <div class="card soft" style="align-self:center;padding:10px 14px;text-align:center" ><span class="xs" style="color:#153F34">Phone numbers and payments stay inside the app so both of you are covered.</span></div>
+  </div>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #E9E3DD;padding:10px 16px 24px;display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;gap:8px;overflow-x:auto">
+      <span class="chip" style="height:32px;font-size:13px">Yes, visitor parking at the gate</span>
+      <span class="chip" style="height:32px;font-size:13px">I'm running 10 min late</span>
+      <span class="chip" style="height:32px;font-size:13px">Can we move it?</span>
+    </div>
+    <div class="row" style="gap:8px">
+      <span class="back" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="12" cy="12" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg></span>
+      <div class="input grow" style="height:44px">Write a message…</div>
+      <button class="btn" style="width:44px;height:44px;border-radius:22px;padding:0" aria-label="Send"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg></button>
+    </div>
+  </div>
+</div></template>
+<template id="t-ProHome"><div class="phone">
+  <div class="scroll" style="gap:18px">
+
+    <div class="topbar">
+      <div class="avatar">N</div>
+      <div class="grow col" style="gap:0"><span class="small muted">Professional mode</span><h1 class="h-sec" style="font-size:20px">Hi Naledi</h1></div>
+      <a href="#" data-go="Main" class="chip" style="height:32px;font-size:12px">Switch to customer</a>
+    </div>
+
+    <div class="card row" style="gap:12px">
+      <div class="grow col" style="gap:2px"><span class="b">Taking bookings</span><span class="small muted">Instant booking on · travel within 10 km</span></div>
+      <button class="toggle " aria-label="Toggle taking bookings" style="border:0;cursor:pointer"></button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+      <div class="card col" style="gap:2px;padding:12px"><span class="xs muted">Today</span><span style="font-family:Manrope,Inter,sans-serif;font-size:22px;font-weight:800">3</span><span class="xs muted">bookings</span></div>
+      <div class="card col" style="gap:2px;padding:12px"><span class="xs muted">This week</span><span style="font-family:Manrope,Inter,sans-serif;font-size:22px;font-weight:800">R4,120</span><span class="xs muted">earned</span></div>
+      <div class="card col" style="gap:2px;padding:12px"><span class="xs muted">Rating</span><span style="font-family:Manrope,Inter,sans-serif;font-size:22px;font-weight:800"><span class="stars">★</span> 4.9</span><span class="xs muted">212 reviews</span></div>
+    </div>
+
+    <a href="#" data-go="ProRequests" class="card blush row" style="gap:12px">
+      <div style="width:40px;height:40px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;color:#8A4B3C;flex:none">2</div>
+      <div class="grow col" style="gap:2px"><span class="b">New booking requests</span><span class="small muted">Reply within 1 hour to keep your fast-reply badge.</span></div>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A4B3C" stroke-width="2" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    </a>
+
+    <div class="col" style="gap:10px">
+      <div class="row between"><h2 class="h-sec">Today, Wed 26 Nov</h2><a href="#" data-go="ProRequests" class="small b" style="color:#1F5B4B">Calendar</a></div>
+
+      <div class="card" style="padding:0;overflow:hidden;border-color:#1F5B4B">
+        <div class="row" style="padding:12px 16px;gap:12px;background:#E2EFE9">
+          <span class="tag ok">Next · in 40 min</span>
+          <span class="small grow" style="color:#153F34">09:30 to 10:30</span>
+          <span class="tag ink">Comes to you</span>
+        </div>
+        <div style="padding:14px 16px;display:flex;flex-direction:column;gap:12px">
+          <div class="row" style="gap:12px">
+            <div class="avatar sm">K</div>
+            <div class="grow col" style="gap:2px"><span class="b">Khanyi D. · Gel overlay</span><span class="small muted">14 Jan Smuts Ave, Rosebank · 1.1 km</span></div>
+            <span class="b">R310</span>
+          </div>
+          <div class="row" style="gap:8px">
+            <a href="#" data-go="ProHome" class="btn" style="height:44px;font-size:14px">I'm on my way</a>
+            <a href="#" data-go="Chat" class="btn ghost" style="height:44px;font-size:14px;width:auto;padding:0 16px">Message</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card row" style="gap:12px">
+        <div class="col" style="gap:0;width:52px;flex:none"><span class="b">12:00</span><span class="xs muted">90 min</span></div>
+        <div class="grow col" style="gap:2px"><span class="b">Busi M. · Acrylic full set</span><span class="small muted">Your studio · paid by card</span></div>
+        <span class="tag ok">Confirmed</span>
+      </div>
+
+      <div class="card row" style="gap:12px">
+        <div class="col" style="gap:0;width:52px;flex:none"><span class="b">15:30</span><span class="xs muted">60 min</span></div>
+        <div class="grow col" style="gap:2px"><span class="b">Thandi N. · Gel overlay</span><span class="small muted">Comes to you · Oak Ave · cash</span></div>
+        <span class="tag warn">Cash</span>
+      </div>
+    </div>
+
+    <div class="col" style="gap:10px">
+      <h2 class="h-sec">Your profile</h2>
+      <div class="card" style="padding:0">
+        <a href="#" data-go="ProVerify" class="row" style="padding:14px 16px;gap:12px"><span class="tag ok">✓</span><span class="grow small b">Verified since 12 Nov 2026</span><span class="xs muted">Renews Nov 2027</span></a>
+        <div class="hair"></div>
+        <a href="#" data-go="ProServices" class="row" style="padding:14px 16px;gap:12px"><span class="grow small b">Services, prices and availability</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B635D" stroke-width="2" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
+        <div class="hair"></div>
+        <a href="#" data-go="PublicProfile" class="row" style="padding:14px 16px;gap:12px"><span class="grow small b">Share your public page</span><span class="xs muted">luma.co.za/naledi</span></a>
+      </div>
+    </div>
+
+  </div>
+
+  <nav class="nav" aria-label="Professional">
+    <a href="#" data-go="ProHome" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Today</a>
+    <a href="#" data-go="ProRequests"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Bookings</a>
+    <a href="#" data-go="Chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg>Messages</a>
+    <a href="#" data-go="ProServices"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>Manage</a>
+  </nav>
+</div></template>
+<template id="t-ProRequests"><div class="phone">
+  <div class="scroll" style="gap:16px">
+
+    <div class="row between">
+      <h1 class="h-title">Bookings</h1>
+      <a href="#" data-go="ProServices" class="chip" style="height:32px;font-size:12px">Availability</a>
+    </div>
+
+    <div class="chips">
+      <span class="chip on">Requests · 2</span>
+      <span class="chip">Upcoming · 7</span>
+      <span class="chip">Past</span>
+      <span class="chip">Cancelled</span>
+    </div>
+
+    
+<div class="card col" style="gap:12px">
+  <div class="row" style="gap:12px"><div class="avatar sm">L</div><div class="grow col" style="gap:2px"><span class="b">Lerato K.</span><span class="xs muted">New client · 2 bookings on Luma · no no-shows</span></div><span class="tag warn">Reply in 38 min</span></div>
+  <div class="col small" style="gap:6px">
+    <span class="row" style="gap:8px">✓ Acrylic full set + nail art × 4</span>
+    <span class="row" style="gap:8px">Sat 29 Nov, 11:00 to 12:50</span>
+    <span class="row" style="gap:8px">Comes to you · Greenside · 3.2 km</span>
+  </div>
+  <div class="row between" style="background:#FAF8F5;border-radius:12px;padding:10px 12px"><span class="small">You earn</span><span class="b">R500 + R60 travel</span></div>
+  <div class="row" style="gap:8px"><a href="#" class="btn" style="height:44px;font-size:14px" data-go="ProRequests">Accept</a><a href="#" class="btn ghost" style="height:44px;font-size:14px" data-go="ProRequests">Decline</a><a href="#" class="back" aria-label="Message customer" data-go="Chat"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg></a></div>
+</div>
+<div class="card col" style="gap:12px">
+  <div class="row" style="gap:12px"><div class="avatar sm">A</div><div class="grow col" style="gap:2px"><span class="b">Ayanda M.</span><span class="xs muted">Regular · 5 bookings with you</span></div><span class="tag warn">Reply in 2 h</span></div>
+  <div class="col small" style="gap:6px">
+    <span class="row" style="gap:8px">✓ Gel overlay</span>
+    <span class="row" style="gap:8px">Mon 1 Dec, 16:00 to 17:00</span>
+    <span class="row" style="gap:8px">Your studio · Parkhurst</span>
+  </div>
+  <div class="row between" style="background:#FAF8F5;border-radius:12px;padding:10px 12px"><span class="small">You earn</span><span class="b">R250</span></div>
+  <div class="row" style="gap:8px"><a href="#" class="btn" style="height:44px;font-size:14px" data-go="ProRequests">Accept</a><a href="#" class="btn ghost" style="height:44px;font-size:14px" data-go="ProRequests">Decline</a></div>
+</div>
+
+    <div class="card soft col" style="gap:4px">
+      <span class="b small" style="color:#153F34">Client reliability, private to professionals</span>
+      <span class="xs" style="color:#153F34">Khanyi D.: 6 bookings, 0 no-shows, always on time. Ratings you leave for clients are never public.</span>
+    </div>
+
+    <div class="col" style="gap:10px">
+      <h2 class="h-sec">Upcoming</h2>
+      <div class="card row" style="gap:12px">
+        <div class="col" style="gap:0;width:64px;flex:none"><span class="b small">Thu 27</span><span class="xs muted">10:00</span></div>
+        <div class="grow col" style="gap:2px"><span class="b">Thandi N. · Gel overlay + art</span><span class="small muted">Comes to you · Oak Ave · R390 paid</span></div>
+        <span class="tag ok">Confirmed</span>
+      </div>
+      <div class="card row" style="gap:12px">
+        <div class="col" style="gap:0;width:64px;flex:none"><span class="b small">Thu 27</span><span class="xs muted">14:00</span></div>
+        <div class="grow col" style="gap:2px"><span class="b">Lindiwe S. · Soak off</span><span class="small muted">Your studio · R120 cash</span></div>
+        <span class="tag ok">Confirmed</span>
+      </div>
+    </div>
+
+  </div>
+
+  <nav class="nav" aria-label="Professional">
+    <a href="#" data-go="ProHome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Today</a>
+    <a href="#" data-go="ProRequests" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Bookings</a>
+    <a href="#" data-go="Chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg>Messages</a>
+    <a href="#" data-go="ProServices"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>Manage</a>
+  </nav>
+</div></template>
+<template id="t-ProServices"><div class="phone">
+  <div class="scroll" style="gap:18px">
+
+    <div class="row between">
+      <h1 class="h-title">Manage</h1>
+      <a href="#" data-go="PublicProfile" class="chip" style="height:32px;font-size:12px">View public page</a>
+    </div>
+
+    <div class="col" style="gap:10px">
+      <h2 class="h-sec">How customers book you</h2>
+      <button class="opt on">
+        <span class="radio"></span>
+        <span class="grow col" style="gap:2px"><span class="b">Instant booking</span><span class="small muted">A free slot is confirmed the moment they pay. Shows an "Instant book" badge.</span></span>
+      </button>
+      <button class="opt ">
+        <span class="radio"></span>
+        <span class="grow col" style="gap:2px"><span class="b">Booking request</span><span class="small muted">You accept or decline each request within 1 hour. Nothing is charged until you accept.</span></span>
+      </button>
+    </div>
+
+    <div class="col" style="gap:10px">
+      <h2 class="h-sec">Where you work</h2>
+      <div class="card col" style="gap:12px">
+        <div class="row between"><span class="b small">I travel to customers</span><span class="toggle"></span></div>
+        <div class="col" style="gap:6px">
+          <div class="row between small"><span>Travel radius</span><span class="b">10 km from Rosebank</span></div>
+          <div style="height:6px;border-radius:3px;background:#E9E3DD;position:relative"><div style="position:absolute;left:0;top:0;height:6px;width:40%;border-radius:3px;background:#1F5B4B"></div><div style="position:absolute;left:40%;top:-9px;width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid #1F5B4B;transform:translateX(-12px)"></div></div>
+          <div class="row between small"><span>Travel fee</span><span class="b">R60</span></div>
+        </div>
+        <div class="hair"></div>
+        <div class="row between"><span class="b small">Customers visit my studio</span><span class="toggle"></span></div>
+        <span class="small muted">Home studio · Parkhurst · address shown after a booking is confirmed</span>
+      </div>
+    </div>
+
+    <div class="col" style="gap:10px">
+      <div class="row between"><h2 class="h-sec">Services and prices</h2><span class="small b" style="color:#1F5B4B">+ Add</span></div>
+      <div class="card" style="padding:0">
+        <div class="row" style="padding:14px 16px;gap:12px"><div class="grow col" style="gap:2px"><span class="b">Gel overlay</span><span class="small muted">60 min</span></div><span class="b">R250</span><span class="toggle"></span></div>
+        <div class="hair"></div>
+        <div class="row" style="padding:14px 16px;gap:12px"><div class="grow col" style="gap:2px"><span class="b">Acrylic full set</span><span class="small muted">90 min</span></div><span class="b">R380</span><span class="toggle"></span></div>
+        <div class="hair"></div>
+        <div class="row" style="padding:14px 16px;gap:12px"><div class="grow col" style="gap:2px"><span class="b">Nail art, per nail</span><span class="small muted">10 min · add-on</span></div><span class="b">R30</span><span class="toggle"></span></div>
+        <div class="hair"></div>
+        <div class="row" style="padding:14px 16px;gap:12px"><div class="grow col" style="gap:2px"><span class="b">Pedicure</span><span class="small muted">45 min · hidden</span></div><span class="b muted">R220</span><span class="toggle off"></span></div>
+      </div>
+      <span class="small muted">Suggested range for gel overlay in Johannesburg: R200 to R320.</span>
+    </div>
+
+    <div class="col" style="gap:10px">
+      <h2 class="h-sec">Weekly hours</h2>
+      <div class="card" style="padding:0">
+        <div class="row" style="padding:12px 16px;gap:12px"><span class="b small" style="width:40px">Mon</span><span class="grow small">08:00 to 18:00</span><span class="toggle"></span></div>
+        <div class="hair"></div>
+        <div class="row" style="padding:12px 16px;gap:12px"><span class="b small" style="width:40px">Tue</span><span class="grow small">08:00 to 18:00</span><span class="toggle"></span></div>
+        <div class="hair"></div>
+        <div class="row" style="padding:12px 16px;gap:12px"><span class="b small" style="width:40px">Wed</span><span class="grow small">08:00 to 18:00</span><span class="toggle"></span></div>
+        <div class="hair"></div>
+        <div class="row" style="padding:12px 16px;gap:12px"><span class="b small" style="width:40px">Thu</span><span class="grow small">08:00 to 18:00</span><span class="toggle"></span></div>
+        <div class="hair"></div>
+        <div class="row" style="padding:12px 16px;gap:12px"><span class="b small" style="width:40px">Fri</span><span class="grow small">08:00 to 16:00</span><span class="toggle"></span></div>
+        <div class="hair"></div>
+        <div class="row" style="padding:12px 16px;gap:12px"><span class="b small" style="width:40px">Sat</span><span class="grow small">09:00 to 14:00</span><span class="toggle"></span></div>
+        <div class="hair"></div>
+        <div class="row" style="padding:12px 16px;gap:12px"><span class="b small" style="width:40px">Sun</span><span class="grow small muted">Closed</span><span class="toggle off"></span></div>
+      </div>
+      <a href="#" data-go="ProRequests" class="btn ghost" style="height:44px;font-size:14px">Block time off</a>
+    </div>
+
+    <div class="col" style="gap:10px">
+      <div class="row between"><h2 class="h-sec">Portfolio</h2><span class="small muted">48 photos</span></div>
+      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">
+        <div class="photo" style="aspect-ratio:1;border-radius:10px"></div>
+        <div class="photo g3" style="aspect-ratio:1;border-radius:10px"></div>
+        <div class="photo g4" style="aspect-ratio:1;border-radius:10px"></div>
+        <div style="aspect-ratio:1;border-radius:10px;border:1.5px dashed #C9C1BA;display:flex;align-items:center;justify-content:center;color:#1F5B4B;font-weight:800;font-size:22px">+</div>
+      </div>
+    </div>
+
+  </div>
+
+  <nav class="nav" aria-label="Professional">
+    <a href="#" data-go="ProHome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Today</a>
+    <a href="#" data-go="ProRequests"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Bookings</a>
+    <a href="#" data-go="Chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg>Messages</a>
+    <a href="#" data-go="ProServices" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>Manage</a>
+  </nav>
+</div></template>
+<template id="t-ProVerify"><div class="phone">
+  <div class="scroll" style="padding-bottom:120px;gap:18px">
+
+    <div class="topbar">
+      <a href="#" data-go="ProHome" class="back" aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></a>
+      <div class="grow col" style="gap:0"><h1 class="h-sec" style="font-size:18px">Get verified</h1><span class="small muted">Required before you can take bookings</span></div>
+    </div>
+
+    <div class="card soft col" style="gap:8px">
+      <div class="row between"><span class="b" style="color:#153F34">2 of 5 steps done</span><span class="xs" style="color:#153F34">About 10 min left</span></div>
+      <div style="height:8px;border-radius:4px;background:rgba(21,63,52,.15)"><div style="width:40%;height:8px;border-radius:4px;background:#1F5B4B"></div></div>
+      <span class="xs" style="color:#153F34">We review within 1 to 2 working days. You can set up your services meanwhile.</span>
+    </div>
+
+    <div class="col" style="gap:10px">
+      <div class="card step">
+        <span class="dot done">✓</span>
+        <div class="grow col" style="gap:2px"><span class="b">Profile details</span><span class="small muted">Naledi Nkosi · Nail technician · Rosebank</span></div>
+        <span class="small b" style="color:#1F5B4B">Edit</span>
+      </div>
+      <div class="card step">
+        <span class="dot done">✓</span>
+        <div class="grow col" style="gap:2px"><span class="b">South African ID or passport</span><span class="small muted">Front and back · checked automatically</span></div>
+        <span class="tag ok">Verified</span>
+      </div>
+      <div class="card step" style="border-color:#1F5B4B">
+        <span class="dot">3</span>
+        <div class="grow col" style="gap:8px">
+          <div class="col" style="gap:2px"><span class="b">Selfie match</span><span class="small muted">A short video selfie, compared with your ID photo. Takes 30 seconds.</span></div>
+          <button class="btn sm">Take selfie</button>
+        </div>
+      </div>
+      <div class="card step">
+        <span class="dot todo">4</span>
+        <div class="grow col" style="gap:8px">
+          <div class="col" style="gap:2px"><span class="b">Qualifications and experience</span><span class="small muted">Certificates, or 3 photos of your work and 2 references if you are self-taught.</span></div>
+          <div class="row" style="gap:8px"><span class="btn sm ghost">Upload certificate</span><span class="btn sm ghost">Self-taught</span></div>
+        </div>
+      </div>
+      <div class="card step">
+        <span class="dot todo">5</span>
+        <div class="grow col" style="gap:2px"><span class="b">Where you work</span><span class="small muted">Studio address, or the area you travel to. We confirm the address by post or a video call.</span></div>
+      </div>
+    </div>
+
+    <div class="card col" style="gap:6px">
+      <span class="b small">What customers will see</span>
+      <span class="small muted">A verification panel on your profile: ID, selfie, qualification and address, each with a tick. Documents themselves are never shown and are deleted 30 days after approval.</span>
+    </div>
+
+  </div>
+
+  <div class="pricebar">
+    <a href="#" data-go="ProServices" class="btn">Save and set up services</a>
+  </div>
+</div></template>
+<template id="t-AdminVetting"><div class="web" style="min-height:900px">
+  <nav class="side" aria-label="Admin">
+    <div class="row" style="gap:10px;padding:4px 12px 16px"><div style="width:32px;height:32px;border-radius:10px;background:#1F5B4B;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-family:Manrope,Inter,sans-serif">L</div><div class="col" style="gap:0"><span class="b">Luma Admin</span><span class="xs muted">South Africa</span></div></div>
+    <a href="#" data-go="AdminBookings">Dashboard</a>
+    <span class="grp">Trust</span>
+    <a href="#" data-go="AdminVetting" class="on">Vetting queue <span class="tag warn" style="margin-left:auto">12</span></a>
+    <a href="#" data-go="AdminVetting">Professionals</a>
+    <a href="#" data-go="AdminVetting">Customers</a>
+    <a href="#" data-go="AdminBookings">Reviews and moderation</a>
+    <span class="grp">Operations</span>
+    <a href="#" data-go="AdminBookings">Bookings</a>
+    <a href="#" data-go="AdminBookings">Payments and payouts</a>
+    <a href="#" data-go="AdminBookings">Disputes <span class="tag bad" style="margin-left:auto">3</span></a>
+    <a href="#" data-go="AdminBookings">Support</a>
+    <span class="grp">Setup</span>
+    <a href="#" data-go="AdminVetting">Catalogue</a>
+    <a href="#" data-go="AdminVetting">Countries and settings</a>
+    <a href="#" data-go="AdminVetting">Team and roles</a>
+  </nav>
+
+  <div class="main">
+    <div class="row between" style="flex-wrap:wrap;gap:12px">
+      <div class="col" style="gap:2px"><h1 class="h-title" style="font-size:24px">Vetting queue</h1><span class="small muted">Applications waiting for a decision. Oldest first.</span></div>
+      <div class="row" style="gap:8px"><span class="btn w ghost">Export</span><span class="btn w">Assign to me</span></div>
+    </div>
+
+    <div class="kpi">
+      <div class="card"><span class="xs muted">Waiting</span><span class="n">12</span><span class="xs muted">4 older than 2 days</span></div>
+      <div class="card"><span class="xs muted">Average review time</span><span class="n">1.4 d</span><span class="xs muted">target 2 days</span></div>
+      <div class="card"><span class="xs muted">Approved this week</span><span class="n">31</span><span class="xs muted">+9 vs last week</span></div>
+      <div class="card"><span class="xs muted">Rejected this week</span><span class="n">4</span><span class="xs muted">2 for ID mismatch</span></div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start">
+      <div class="card" style="flex:999 1 560px;min-width:0;padding:0;overflow:hidden">
+        <div class="tabs" style="padding:0 12px"><a href="#" data-go="AdminVetting" class="on">Waiting · 12</a><a href="#" data-go="AdminVetting">In review · 5</a><a href="#" data-go="AdminVetting">More info · 3</a><a href="#" data-go="AdminVetting">Approved</a><a href="#" data-go="AdminVetting">Rejected</a></div>
+        <div class="scrollx">
+          <table class="t">
+            <thead><tr><th>Applicant</th><th>Category</th><th>City</th><th>Submitted</th><th>Checks</th><th>Assigned</th></tr></thead>
+            <tbody>
+              <tr class="sel"><td><div class="row" style="gap:10px"><div class="avatar sm">N</div><div class="col" style="gap:0"><span class="b">Naledi Nkosi</span><span class="xs muted">Mobile + studio</span></div></div></td><td>Nails</td><td>Johannesburg</td><td>2 days ago</td><td><div class="row" style="gap:4px"><span class="tag ok">ID</span><span class="tag ok">Selfie</span><span class="tag warn">Qual.</span><span class="tag ink">Address</span></div></td><td>Sipho</td></tr>
+              <tr><td><div class="row" style="gap:10px"><div class="avatar sm" style="background:#DCE7E1;color:#153F34">T</div><div class="col" style="gap:0"><span class="b">Thabo Ink Studio</span><span class="xs muted">Studio</span></div></div></td><td>Tattoo</td><td>Cape Town</td><td>2 days ago</td><td><div class="row" style="gap:4px"><span class="tag ok">ID</span><span class="tag ok">Selfie</span><span class="tag ok">Qual.</span><span class="tag warn">Address</span></div></td><td>—</td></tr>
+              <tr><td><div class="row" style="gap:10px"><div class="avatar sm">Z</div><div class="col" style="gap:0"><span class="b">Zinhle Braids</span><span class="xs muted">Mobile</span></div></div></td><td>Hair</td><td>Durban</td><td>1 day ago</td><td><div class="row" style="gap:4px"><span class="tag ok">ID</span><span class="tag bad">Selfie</span><span class="tag ink">Qual.</span><span class="tag ink">Address</span></div></td><td>Lebo</td></tr>
+              <tr><td><div class="row" style="gap:10px"><div class="avatar sm" style="background:#E6DFE9;color:#5B4A66">M</div><div class="col" style="gap:0"><span class="b">Mpho Cleaning Co.</span><span class="xs muted">Mobile · 3 staff</span></div></div></td><td>Cleaning</td><td>Pretoria</td><td>1 day ago</td><td><div class="row" style="gap:4px"><span class="tag ok">ID</span><span class="tag ok">Selfie</span><span class="tag ink">Qual.</span><span class="tag ink">Address</span></div></td><td>—</td></tr>
+              <tr><td><div class="row" style="gap:10px"><div class="avatar sm">K</div><div class="col" style="gap:0"><span class="b">Kagiso Lashes</span><span class="xs muted">Studio</span></div></div></td><td>Lashes &amp; brows</td><td>Johannesburg</td><td>6 hours ago</td><td><div class="row" style="gap:4px"><span class="tag ok">ID</span><span class="tag ok">Selfie</span><span class="tag ok">Qual.</span><span class="tag ok">Address</span></div></td><td>—</td></tr>
+              <tr><td><div class="row" style="gap:10px"><div class="avatar sm" style="background:#DCE7E1;color:#153F34">A</div><div class="col" style="gap:0"><span class="b">Amahle Makeup</span><span class="xs muted">Mobile</span></div></div></td><td>Makeup</td><td>Cape Town</td><td>3 hours ago</td><td><div class="row" style="gap:4px"><span class="tag ok">ID</span><span class="tag ink">Selfie</span><span class="tag ink">Qual.</span><span class="tag ink">Address</span></div></td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="flex:1 1 340px;min-width:0;display:flex;flex-direction:column;gap:14px">
+        <div class="row" style="gap:12px"><div class="avatar">N</div><div class="grow col" style="gap:2px"><span class="b" style="font-size:16px">Naledi Nkosi</span><span class="small muted">Nails · Rosebank, Johannesburg · applied 24 Nov</span></div></div>
+        <div class="col" style="gap:8px">
+          <div class="row between" style="padding:10px 12px;background:#FAF8F5;border-radius:10px"><span class="small b">ID document</span><div class="row" style="gap:8px"><span class="tag ok">Match 98%</span><a href="#" data-go="AdminVetting" class="small b" style="color:#1F5B4B">View</a></div></div>
+          <div class="row between" style="padding:10px 12px;background:#FAF8F5;border-radius:10px"><span class="small b">Selfie video</span><div class="row" style="gap:8px"><span class="tag ok">Live · match</span><a href="#" data-go="AdminVetting" class="small b" style="color:#1F5B4B">View</a></div></div>
+          <div class="row between" style="padding:10px 12px;background:#FAF8F5;border-radius:10px"><span class="small b">Qualification</span><div class="row" style="gap:8px"><span class="tag warn">Needs a look</span><a href="#" data-go="AdminVetting" class="small b" style="color:#1F5B4B">View 2 files</a></div></div>
+          <div class="row between" style="padding:10px 12px;background:#FAF8F5;border-radius:10px"><span class="small b">Studio address</span><div class="row" style="gap:8px"><span class="tag ink">Not started</span></div></div>
+          <div class="row between" style="padding:10px 12px;background:#FAF8F5;border-radius:10px"><span class="small b">Portfolio</span><div class="row" style="gap:8px"><span class="tag ok">12 photos</span><a href="#" data-go="AdminVetting" class="small b" style="color:#1F5B4B">Review</a></div></div>
+        </div>
+        <div class="field"><label for="note">Decision note (the applicant sees this)</label><textarea id="note" placeholder="e.g. Please upload a clearer photo of the certificate."></textarea></div>
+        <div class="col" style="gap:8px">
+          <button class="btn" style="height:44px;font-size:14px">Approve and publish profile</button>
+          <div class="row" style="gap:8px"><button class="btn ghost" style="height:44px;font-size:14px">Request more info</button><button class="btn danger" style="height:44px;font-size:14px">Reject</button></div>
+        </div>
+        <span class="xs muted">Every decision is logged with who made it and when.</span>
+      </div>
+    </div>
+  </div>
+</div></template>
+<template id="t-AdminBookings"><div class="web" style="min-height:900px">
+  <nav class="side" aria-label="Admin">
+    <div class="row" style="gap:10px;padding:4px 12px 16px"><div style="width:32px;height:32px;border-radius:10px;background:#1F5B4B;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-family:Manrope,Inter,sans-serif">L</div><div class="col" style="gap:0"><span class="b">Luma Admin</span><span class="xs muted">South Africa</span></div></div>
+    <a href="#" data-go="AdminBookings">Dashboard</a>
+    <span class="grp">Trust</span>
+    <a href="#" data-go="AdminVetting">Vetting queue <span class="tag warn" style="margin-left:auto">12</span></a>
+    <a href="#" data-go="AdminVetting">Professionals</a>
+    <a href="#" data-go="AdminVetting">Customers</a>
+    <a href="#" data-go="AdminBookings">Reviews and moderation</a>
+    <span class="grp">Operations</span>
+    <a href="#" data-go="AdminBookings" class="on">Bookings</a>
+    <a href="#" data-go="AdminBookings">Payments and payouts</a>
+    <a href="#" data-go="AdminBookings">Disputes <span class="tag bad" style="margin-left:auto">3</span></a>
+    <a href="#" data-go="AdminBookings">Support</a>
+    <span class="grp">Setup</span>
+    <a href="#" data-go="AdminVetting">Catalogue</a>
+    <a href="#" data-go="AdminVetting">Countries and settings</a>
+    <a href="#" data-go="AdminVetting">Team and roles</a>
+  </nav>
+
+  <div class="main">
+    <div class="row between" style="flex-wrap:wrap;gap:12px">
+      <div class="col" style="gap:2px"><h1 class="h-title" style="font-size:24px">Bookings</h1><span class="small muted">Wednesday 26 November 2026 · Johannesburg, Cape Town, Durban, Pretoria</span></div>
+      <div class="row" style="gap:8px"><span class="chip">Today</span><span class="chip">All cities</span><span class="chip">All statuses</span><span class="btn w ghost">Export CSV</span></div>
+    </div>
+
+    <div class="kpi">
+      <div class="card"><span class="xs muted">Bookings today</span><span class="n">148</span><span class="xs muted">121 instant · 27 requests</span></div>
+      <div class="card"><span class="xs muted">Value today</span><span class="n">R62,400</span><span class="xs muted">R8,120 platform fees</span></div>
+      <div class="card"><span class="xs muted">Payout due Friday</span><span class="n">R218,900</span><span class="xs muted">312 professionals</span></div>
+      <div class="card" style="border-color:#B23A3A"><span class="xs muted">Open disputes</span><span class="n" style="color:#B23A3A">3</span><span class="xs muted">1 past the 48 h target</span></div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start">
+      <div class="card" style="flex:999 1 560px;min-width:0;padding:0;overflow:hidden">
+        <div class="tabs" style="padding:0 12px"><a href="#" data-go="AdminBookings" class="on">All · 148</a><a href="#" data-go="AdminBookings">Requests waiting · 9</a><a href="#" data-go="AdminBookings">In progress · 23</a><a href="#" data-go="AdminBookings">Disputed · 3</a><a href="#" data-go="AdminBookings">Cancelled · 6</a></div>
+        <div class="scrollx">
+          <table class="t">
+            <thead><tr><th>Booking</th><th>Customer</th><th>Professional</th><th>Service</th><th>When</th><th>Payment</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr class="sel"><td class="b">LM-240871</td><td>Khanyi D.</td><td>Naledi Nkosi</td><td>Gel overlay · mobile</td><td>09:30</td><td>Card · R310</td><td><span class="tag bad">Disputed</span></td></tr>
+              <tr><td class="b">LM-240918</td><td>Thandi N.</td><td>Naledi Nkosi</td><td>Gel overlay + art · mobile</td><td>Thu 10:00</td><td>Card · R390</td><td><span class="tag ok">Confirmed</span></td></tr>
+              <tr><td class="b">LM-240922</td><td>Lerato K.</td><td>Naledi Nkosi</td><td>Acrylic set · mobile</td><td>Sat 11:00</td><td>Not charged</td><td><span class="tag warn">Request · 38 min</span></td></tr>
+              <tr><td class="b">LM-240903</td><td>Busi M.</td><td>Studio Amara</td><td>Knotless braids · studio</td><td>11:00</td><td>Cash · R650</td><td><span class="tag ink">In progress</span></td></tr>
+              <tr><td class="b">LM-240899</td><td>Sibusiso T.</td><td>Ink by Sipho</td><td>Tattoo, 2 h · studio</td><td>14:00</td><td>Card · R1,800</td><td><span class="tag ok">Confirmed</span></td></tr>
+              <tr><td class="b">LM-240887</td><td>Nomsa P.</td><td>Mpho Cleaning Co.</td><td>Deep clean, 3 h · mobile</td><td>08:00</td><td>Card · R780</td><td><span class="tag ok">Completed</span></td></tr>
+              <tr><td class="b">LM-240880</td><td>Ayanda M.</td><td>Glow Room</td><td>Lash lift · studio</td><td>Yesterday</td><td>Card · R380</td><td><span class="tag" style="background:#EEEAE6;color:#6B635D">Cancelled by customer</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="flex:1 1 340px;min-width:0;display:flex;flex-direction:column;gap:14px;border-color:#B23A3A">
+        <div class="row between"><span class="tag bad">Dispute D-1042</span><span class="xs muted">Opened 3 h ago · 45 h left</span></div>
+        <div class="col" style="gap:2px"><span class="b" style="font-size:16px">Customer says the professional did not arrive</span><span class="small muted">LM-240871 · Khanyi D. and Naledi Nkosi · R310 on hold</span></div>
+        <div class="col" style="gap:8px">
+          <div class="row" style="gap:10px;align-items:flex-start"><span class="dot done" style="width:22px;height:22px;border-radius:50%;background:#1F5B4B;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;flex:none">✓</span><span class="small"><span class="b">09:02</span> Naledi tapped "On my way", 1.1 km from the address</span></div>
+          <div class="row" style="gap:10px;align-items:flex-start"><span style="width:22px;height:22px;border-radius:50%;background:#FBF0D9;color:#8F6210;font-size:11px;display:flex;align-items:center;justify-content:center;flex:none;font-weight:800">!</span><span class="small"><span class="b">09:41</span> No "Arrived" check-in. 3 unanswered calls logged in app</span></div>
+          <div class="row" style="gap:10px;align-items:flex-start"><span style="width:22px;height:22px;border-radius:50%;background:#F9E5E5;color:#B23A3A;font-size:11px;display:flex;align-items:center;justify-content:center;flex:none;font-weight:800">!</span><span class="small"><span class="b">10:15</span> Khanyi opened a dispute: "Waited 45 minutes, nobody came"</span></div>
+          <div class="row" style="gap:10px;align-items:flex-start"><span style="width:22px;height:22px;border-radius:50%;background:#EEEAE6;color:#6B635D;font-size:11px;display:flex;align-items:center;justify-content:center;flex:none;font-weight:800">?</span><span class="small"><span class="b">10:30</span> Naledi: "Car broke down, I messaged at 09:20". Message not found in the thread</span></div>
+        </div>
+        <div class="row" style="gap:8px"><a href="#" data-go="Chat" class="btn w ghost">Open chat log</a><span class="btn w ghost">Location trail</span></div>
+        <div class="col" style="gap:8px">
+          <button class="btn" style="height:44px;font-size:14px">Refund the customer in full</button>
+          <div class="row" style="gap:8px"><button class="btn ghost" style="height:44px;font-size:14px">Split 50/50</button><button class="btn ghost" style="height:44px;font-size:14px">Pay professional</button></div>
+        </div>
+        <span class="xs muted">Decisions are final after 7 days unless either side appeals.</span>
+      </div>
+    </div>
+  </div>
+</div></template>
+<template id="t-PublicProfile"><div style="min-height:100%;background:#FAF8F5;color:#1B1A19;font-family:Inter,system-ui,sans-serif;font-size:15px;line-height:1.45">
+
+  <header style="background:#fff;border-bottom:1px solid #E9E3DD">
+    <div style="max-width:1080px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+      <a href="#" data-go="Main" class="row" style="gap:10px"><div style="width:32px;height:32px;border-radius:10px;background:#1F5B4B;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-family:Manrope,Inter,sans-serif">L</div><span class="b" style="font-family:Manrope,Inter,sans-serif;font-size:18px">Luma</span></a>
+      <nav class="row" style="gap:20px;font-weight:600;font-size:14px" aria-label="Site"><a href="#" data-go="Search">Find a professional</a><a href="#" data-go="ProVerify">Become a professional</a><a href="#" data-go="Main" class="btn w">Get the app</a></nav>
+    </div>
+  </header>
+
+  <main style="max-width:1080px;margin:0 auto;padding:32px 24px 56px;display:flex;flex-direction:column;gap:32px">
+
+    <section style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start">
+      <div class="photo" style="flex:1 1 380px;min-width:0;aspect-ratio:4/3;max-width:100%;border-radius:24px"><div style="position:absolute;left:16px;top:16px;display:flex;gap:6px"><span class="tag ok">Verified by Luma</span><span class="tag blush">Comes to you</span><span class="tag ink">Instant booking</span></div></div>
+      <div style="flex:1 1 380px;min-width:0;display:flex;flex-direction:column;gap:18px">
+        <div class="col" style="gap:6px">
+          <span class="small muted b" style="letter-spacing:.04em;text-transform:uppercase">Nail technician · Rosebank, Johannesburg</span>
+          <h1 style="font-family:Manrope,Inter,sans-serif;font-size:40px;font-weight:800;letter-spacing:-.02em;line-height:1.05">Naledi Nkosi</h1>
+          <span style="font-size:16px"><span class="stars">★ 4.9</span> <span class="muted">from 212 reviews · 6 years · 1,340 bookings on Luma</span></span>
+        </div>
+        <p style="margin:0;max-width:52ch">Gel, acrylic, BIAB and hand-painted nail art. I travel within 10 km of Rosebank or you can visit my home studio in Parkhurst. Monday to Saturday, 08:00 to 18:00.</p>
+        <div class="card" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:14px 16px" aria-label="Verification">
+          <span class="row small" style="gap:6px"><span class="tag ok" style="width:20px;height:20px;padding:0;justify-content:center">✓</span>ID document checked</span>
+          <span class="row small" style="gap:6px"><span class="tag ok" style="width:20px;height:20px;padding:0;justify-content:center">✓</span>Selfie matched</span>
+          <span class="row small" style="gap:6px"><span class="tag ok" style="width:20px;height:20px;padding:0;justify-content:center">✓</span>Qualification reviewed</span>
+          <span class="row small" style="gap:6px"><span class="tag ok" style="width:20px;height:20px;padding:0;justify-content:center">✓</span>Studio address confirmed</span>
+        </div>
+        <div class="row" style="gap:10px;flex-wrap:wrap">
+          <a href="#" data-go="Book" class="btn" style="width:auto;padding:0 28px">Book in the app · from R250</a>
+          <a href="#" data-go="Profile" class="btn ghost" style="width:auto;padding:0 20px">Share</a>
+        </div>
+        <span class="xs muted">Booking opens the Luma app, or installs it first. Payment and messages stay in the app so both of you are protected.</span>
+      </div>
+    </section>
+
+    <section class="col" style="gap:14px">
+      <div class="row between"><h2 class="h-sec" style="font-size:22px">Work</h2><span class="small muted">48 photos · newest first</span></div>
+      <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px">
+        <div class="photo" style="aspect-ratio:1;max-width:100%"></div><div class="photo g3" style="aspect-ratio:1;max-width:100%"></div><div class="photo g4" style="aspect-ratio:1;max-width:100%"></div><div class="photo g2" style="aspect-ratio:1;max-width:100%"></div><div class="photo g4" style="aspect-ratio:1;max-width:100%"></div><div class="photo" style="aspect-ratio:1;max-width:100%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;background:#8A4B3C">+42</div>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start">
+      <div style="flex:2 1 460px;min-width:0;display:flex;flex-direction:column;gap:14px">
+        <h2 class="h-sec" style="font-size:22px">Services and prices</h2>
+        <div class="card" style="padding:0">
+          <div class="scrollx">
+            <table class="t">
+              <thead><tr><th>Service</th><th>Time</th><th>Where</th><th>Price</th><th></th></tr></thead>
+              <tbody>
+                <tr><td class="b">Gel overlay</td><td>60 min</td><td>Studio or your place</td><td class="b">R250</td><td><a href="#" data-go="Book" class="btn sm soft">Book</a></td></tr>
+                <tr><td class="b">Acrylic full set</td><td>90 min</td><td>Studio or your place</td><td class="b">R380</td><td><a href="#" data-go="Book" class="btn sm soft">Book</a></td></tr>
+                <tr><td class="b">BIAB overlay</td><td>75 min</td><td>Studio only</td><td class="b">R320</td><td><a href="#" data-go="Book" class="btn sm soft">Book</a></td></tr>
+                <tr><td class="b">Nail art, per nail</td><td>10 min</td><td>Add-on</td><td class="b">R30</td><td></td></tr>
+                <tr><td class="b">Soak off and removal</td><td>30 min</td><td>Studio or your place</td><td class="b">R120</td><td><a href="#" data-go="Book" class="btn sm soft">Book</a></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <span class="small muted">Travel fee R60 within 10 km of Rosebank. Cash accepted. Free cancellation up to 24 hours before.</span>
+      </div>
+      <div style="flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:14px">
+        <h2 class="h-sec" style="font-size:22px">Next available</h2>
+        <div class="card col" style="gap:10px">
+          <div class="row between"><span class="b">Thu 27 Nov</span><span class="small muted">3 slots</span></div>
+          <div class="slots"><a href="#" data-go="Book" class="slot">10:00</a><a href="#" data-go="Book" class="slot">13:00</a><a href="#" data-go="Book" class="slot">16:00</a></div>
+          <div class="hair"></div>
+          <div class="row between"><span class="b">Fri 28 Nov</span><span class="small muted">4 slots</span></div>
+          <div class="slots"><a href="#" data-go="Book" class="slot">08:00</a><a href="#" data-go="Book" class="slot">09:00</a><a href="#" data-go="Book" class="slot">11:30</a><a href="#" data-go="Book" class="slot">14:30</a></div>
+          <a href="#" data-go="Book" class="btn ghost" style="height:44px;font-size:14px">See all availability</a>
+        </div>
+        <div class="card soft col" style="gap:4px"><span class="b small" style="color:#153F34">Where</span><span class="small" style="color:#153F34">Home studio in Parkhurst (exact address after booking) · travels to Rosebank, Parktown, Melville, Greenside, Sandton and nearby.</span></div>
+      </div>
+    </section>
+
+    <section class="col" style="gap:14px">
+      <div class="row between"><h2 class="h-sec" style="font-size:22px">Reviews</h2><span class="small muted">212 reviews · all from completed bookings</span></div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px">
+        <div class="card col" style="gap:8px"><div class="row" style="gap:10px"><div class="avatar sm">K</div><div class="grow col" style="gap:0"><span class="b small">Khanyi</span><span class="xs muted">2 days ago · Gel overlay</span></div><span class="stars small">★★★★★</span></div><span class="small">On time, super gentle and the chrome finish is exactly what I showed her.</span></div>
+        <div class="card col" style="gap:8px"><div class="row" style="gap:10px"><div class="avatar sm">B</div><div class="grow col" style="gap:0"><span class="b small">Busi</span><span class="xs muted">1 week ago · Acrylic full set</span></div><span class="stars small">★★★★★</span></div><span class="small">Came to my flat with everything. Lasted three weeks without a chip.</span></div>
+        <div class="card col" style="gap:8px"><div class="row" style="gap:10px"><div class="avatar sm">R</div><div class="grow col" style="gap:0"><span class="b small">Refilwe</span><span class="xs muted">3 weeks ago · BIAB overlay</span></div><span class="stars small">★★★★<span style="color:#E9E3DD">★</span></span></div><span class="small">Lovely work. Studio was a little hard to find the first time.</span></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="background:#fff;border-top:1px solid #E9E3DD">
+    <div style="max-width:1080px;margin:0 auto;padding:24px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between" class="small muted">
+      <span>© 2026 Luma · Vetted beauty professionals near you · South Africa</span>
+      <div class="row" style="gap:8px"><a href="#" data-go="Main" class="btn sm ghost">App Store</a><a href="#" data-go="Main" class="btn sm ghost">Google Play</a></div>
+    </div>
+  </footer>
+</div></template>
+
+<script>
+const SCREENS = [{"key":"Main","group":"customer","title":"Explore","desc":"Search by service and radius, map of professionals near you, next appointment, book again."},{"key":"Search","group":"customer","title":"Results","desc":"List and map, filters for distance, mobile or studio, price. Instant-book and request badges."},{"key":"Profile","group":"customer","title":"Professional profile","desc":"Portfolio, verification panel, services with prices, availability, reviews."},{"key":"Book","group":"customer","title":"Book","desc":"Comes to you or studio, day and time, add-ons, live price bar."},{"key":"Pay","group":"customer","title":"Pay and confirm","desc":"Saved card, new card, or cash for approved professionals. Cancellation policy."},{"key":"Booking","group":"customer","title":"Booking status","desc":"Status steps, reminders, reschedule, cancel sheet, request awaiting reply, rate a visit."},{"key":"Chat","group":"customer","title":"Messages","desc":"Thread with the professional, booking context, quick replies, photos."},{"key":"ProHome","group":"pro","title":"Today","desc":"Taking-bookings switch, today’s jobs, earnings, rating, on my way."},{"key":"ProRequests","group":"pro","title":"Requests and bookings","desc":"Accept or decline a request, private client reliability, upcoming."},{"key":"ProServices","group":"pro","title":"Services and availability","desc":"Instant or request mode, travel radius and fee, services and prices, hours, portfolio."},{"key":"ProVerify","group":"pro","title":"Apply and get verified","desc":"ID, selfie match, qualifications, address. Nothing is bookable before approval."},{"key":"AdminVetting","group":"admin","title":"Vetting queue","desc":"Applications, automatic checks, document review, approve, request more info, reject."},{"key":"AdminBookings","group":"admin","title":"Bookings and disputes","desc":"Today’s bookings, payouts due, a dispute with its evidence and decision."},{"key":"PublicProfile","group":"web","title":"Public profile page","desc":"Shareable, search-indexed page per professional that books into the app."}];
+const GROUPS = {"customer":["Customer app","#1F5B4B"],"pro":["Professional mode","#8A4B3C"],"admin":["Admin console","#2F6FE0"],"web":["Public profile page","#8F6210"]};
+const TABS = [['map','Screens'],['customer','Customer app'],['pro','Professional mode'],['admin','Admin console'],['web','Public page'],['proposal','Proposal']];
+const FIRST = { customer:'Main', pro:'ProHome', admin:'AdminVetting', web:'PublicProfile' };
+const FLOWS = [
+  ['Find, book and pay', [['Main','Explore'],['Search','Results'],['Profile','Profile'],['Book','Book'],['Pay','Pay'],['Booking','Status'],['Chat','Messages']]],
+  ['Become a professional', [['ProVerify','Apply and verify'],['ProServices','Services and hours'],['ProHome','Today'],['ProRequests','Requests']]],
+  ['Vet and run the platform', [['AdminVetting','Vetting queue'],['AdminBookings','Bookings and disputes'],['PublicProfile','Public page']]],
+];
+const byKey = Object.fromEntries(SCREENS.map(s => [s.key, s]));
+const state = { view: 'map', screen: null, hot: false, history: [] };
+const $ = s => document.querySelector(s);
+const tpl = id => id === 'proposal' ? $('#t-proposal').innerHTML : '<div class="proto">' + $('#t-' + id).innerHTML + '</div>';
+
+function route(h){
+  h = (h || '').replace(/^#/, '');
+  if (!h || h === 'map') return { view: 'map', screen: null };
+  if (h === 'proposal') return { view: 'proposal', screen: null };
+  const s = SCREENS.find(x => x.key.toLowerCase() === h.toLowerCase());
+  if (s) return { view: s.group, screen: s.key };
+  return { view: 'map', screen: null };
+}
+function go(key){
+  const s = byKey[key];
+  if (!s) return;
+  state.history.push(location.hash);
+  location.hash = s.key.toLowerCase();
+}
+function setView(v){
+  state.history.push(location.hash);
+  location.hash = v === 'map' ? 'map' : v === 'proposal' ? 'proposal' : FIRST[v].toLowerCase();
+}
+
+function renderTabs(){
+  $('#tabs').innerHTML = TABS.map(t => '<button role="tab" aria-selected="' + (state.view === t[0]) + '" data-view="' + t[0] + '">' + t[1] + '</button>').join('');
+}
+function renderCrumb(){
+  const s = state.screen && byKey[state.screen];
+  $('#crumb').innerHTML = '<span class="crumb"><span class="gdot" style="background:' + (s ? GROUPS[s.group][1] : 'var(--accent)') + '"></span>' + (s ? GROUPS[s.group][0] + '<span class="sep">›</span><b>' + s.title + '</b>' : state.view === 'proposal' ? '<b>Proposal</b>' : '<b>All screens</b>') + '</span>';
+}
+function renderMap(){
+  return '<div class="map-head"><div><h1>Every screen, clickable</h1><p>A working prototype of the marketplace as we read the brief: the customer app, the professional mode, the admin console and the public profile page. Open any card and tap through. Turn on <b>Show clickable</b> to outline what can be tapped. The proposal with scope, cost and plan is under the <b>Proposal</b> tab.</p></div>'
+    + '<div class="map-stats"><div class="stat"><b>' + SCREENS.length + '</b><span>screens</span></div><div class="stat"><b>4</b><span>surfaces</span></div><div class="stat"><b>3 months</b><span>to launch</span></div></div></div>'
+    + FLOWS.map(f => '<div class="flowbox"><h2>' + f[0] + '</h2><div class="flow">' + f[1].map((s, i) => (i ? '<span class="ar">→</span>' : '') + '<button class="st" data-go="' + s[0] + '"><small>' + (i + 1) + '</small>' + s[1] + '</button>').join('') + '</div></div>').join('')
+    + Object.keys(GROUPS).map(g => { const list = SCREENS.filter(s => s.group === g); return '<section class="map-group"><h2><span class="dot" style="background:' + GROUPS[g][1] + '"></span>' + GROUPS[g][0] + ' <span style="color:var(--muted);font-weight:500">· ' + list.length + (list.length === 1 ? ' screen' : ' screens') + '</span></h2><div class="map-grid">' + list.map((s, i) => '<button class="mcard" data-go="' + s.key + '"><span class="n">' + String(i + 1).padStart(2, '0') + '</span><span class="t">' + s.title + '</span><span class="d">' + s.desc + '</span></button>').join('') + '</div></section>'; }).join('');
+}
+function renderPhone(s){
+  const list = SCREENS.filter(x => x.group === s.group);
+  return '<div class="phone-wrap"><div class="dev">' + tpl(s.key) + '</div>'
+    + '<aside class="side-notes"><div class="note"><h4>This screen</h4><div style="font-weight:600;margin-bottom:4px">' + s.title + '</div><div style="color:var(--muted)">' + s.desc + '</div></div>'
+    + '<div class="note"><h4>' + GROUPS[s.group][0] + '</h4><div class="jump">' + list.map(x => '<button data-go="' + x.key + '" aria-current="' + (x.key === s.key) + '">' + x.title + '</button>').join('') + '</div></div></aside></div>';
+}
+function renderWin(s){
+  const url = s.group === 'admin' ? 'admin.luma.co.za/' + s.key.replace('Admin', '').toLowerCase() : 'luma.co.za/naledi';
+  const list = SCREENS.filter(x => x.group === s.group);
+  return '<div class="note" style="margin-bottom:12px;display:flex;gap:14px;flex-wrap:wrap;align-items:center"><div><div style="font-weight:600">' + s.title + '</div><div style="color:var(--muted)">' + s.desc + '</div></div><div class="jump" style="flex-direction:row;margin-inline-start:auto">' + list.map(x => '<button data-go="' + x.key + '" aria-current="' + (x.key === s.key) + '">' + x.title + '</button>').join('') + '</div></div>'
+    + '<div class="win"><div class="winbar"><span class="dots3"><i></i><i></i><i></i></span><span class="url">' + url + '</span></div><div class="winbody">' + tpl(s.key).replace('<div style="min-height:100%;background:#FAF8F5', '<div class="public" style="min-height:100%;background:#FAF8F5') + '</div></div>';
+}
+function render(){
+  renderTabs(); renderCrumb();
+  const st = $('#stage');
+  const s = state.screen && byKey[state.screen];
+  if (state.view === 'map') st.innerHTML = renderMap();
+  else if (state.view === 'proposal') st.innerHTML = tpl('proposal');
+  else if (!s) st.innerHTML = renderMap();
+  else st.innerHTML = (s.group === 'customer' || s.group === 'pro') ? renderPhone(s) : renderWin(s);
+  document.body.classList.toggle('hot', state.hot);
+  window.scrollTo({ top: 0 });
+}
+function apply(){ Object.assign(state, route(location.hash)); render(); }
+window.addEventListener('hashchange', apply);
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-go],[data-view],[data-sheet],[data-jump],a[href="#"]');
+  if (!t) return;
+  if (t.dataset.jump) { e.preventDefault(); const el = document.getElementById(t.dataset.jump); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+  if (t.matches('a[href="#"]') && !t.dataset.go) { e.preventDefault(); return; }
+  if (t.dataset.go) { e.preventDefault(); go(t.dataset.go); return; }
+  if (t.dataset.view) { setView(t.dataset.view); return; }
+  if (t.dataset.sheet) { const sh = t.closest('.proto').querySelector('.csheet'); if (sh) sh.hidden = t.dataset.sheet !== 'open'; }
+});
+$('#hot').addEventListener('click', () => { state.hot = !state.hot; $('#hot').setAttribute('aria-pressed', state.hot); document.body.classList.toggle('hot', state.hot); });
+$('#theme').addEventListener('click', () => { const r = document.documentElement; const dark = r.getAttribute('data-theme') === 'dark' || (!r.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches); r.setAttribute('data-theme', dark ? 'light' : 'dark'); });
+apply();
+</script>
+</body>
+</html>
